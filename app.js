@@ -1,10 +1,8 @@
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
-
-
-
 require("dotenv").config();
+const { usersRouter } = require("./routes");
 
 const app = express();
 
@@ -14,6 +12,8 @@ app.use(express.json());
 app.use(express.static('public'))
 
 
+app.use("/", usersRouter);
+// app.use("/api", postsRouter);
 
 app.use((_, res) => {
   res.status(404).json({ message: "Route not found" });
