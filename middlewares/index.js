@@ -1,5 +1,3 @@
-const validateBody = require("./validateBody");
+const { protect } = require("./authMiddleware.js");
 
-module.exports = {
-   validateBody,
-};
+module.exports = { protect };
