@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 const { compare, genSalt, hash } = require("bcrypt");
 // const { handleMongooseError } = require("../middlewares");
-const handleMongooseError = require('../middlewares/handleMongooseError')
+const handleMongooseError = require("../middlewares/handleMongooseError");
 
 const userSchema = new Schema(
    {
@@ -20,6 +20,12 @@ const userSchema = new Schema(
       },
 
       token: { type: String },
+
+      theme: {
+         type: String,
+         enum: ["light", "dark", "violet"],
+         default: "light",
+      },
    },
    { versionKey: false, timestamps: true }
 );
@@ -41,4 +47,4 @@ userSchema.methods.checkPassword = (candidate, passwordHash) =>
 
 // const User = model("user", userSchema);
 
-module.exports =  model("user", userSchema) ;
+module.exports = model("user", userSchema);
