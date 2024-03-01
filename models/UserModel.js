@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
-const Joi = require("joi");
 const { compare, genSalt, hash } = require("bcrypt");
-const { handleMongooseError } = require("../middlewares");
+// const { handleMongooseError } = require("../middlewares");
+const handleMongooseError = require('../middlewares/handleMongooseError')
 
 const userSchema = new Schema(
    {
@@ -39,18 +39,6 @@ userSchema.post("save", handleMongooseError);
 userSchema.methods.checkPassword = (candidate, passwordHash) =>
    compare(candidate, passwordHash);
 
-const registerSchema = Joi.object({
-   name: Joi.string().min(3).required(),
-   password: Joi.string().min(8).max(32).required(),
-   email: Joi.string().required(),
-});
+// const User = model("user", userSchema);
 
-const loginSchema = Joi.object({
-   password: Joi.string().required(),
-   email: Joi.string().required(),
-   token: Joi.string(),
-});
-
-const User = model("user", userSchema);
-
-module.exports = { loginSchema, registerSchema, User };
+module.exports =  model("user", userSchema) ;

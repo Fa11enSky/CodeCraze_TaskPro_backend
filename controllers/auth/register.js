@@ -1,5 +1,5 @@
 const { HttpError, ctrlWrapper } = require("../../helpers");
-const { User } = require("../../models/UserModel");
+const { User } = require("../../models");
 
 const register = ctrlWrapper(async (req, res) => {
    const { email } = req.body;
