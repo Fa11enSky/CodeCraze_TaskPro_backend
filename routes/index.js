@@ -1,3 +1,3 @@
  const usersRouter = require("./authRouter.js");
 
-module.exports = {usersRouter };
+module.exports = { usersRouter };
