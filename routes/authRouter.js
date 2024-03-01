@@ -7,9 +7,9 @@ const { registerSchema, loginSchema } = require("../schemas");
 const usersRouter = express.Router();
 
 usersRouter
-    .post("/register", validateBody(registerSchema), register)
-    .post("/login", validateBody(loginSchema), login)
-    .get("/logout", protect, logout)
-    .get("/current", protect, current);
+   .post("/register", validateBody(registerSchema), register)
+   .post("/login", validateBody(loginSchema), login)
+   .post("/logout", protect, logout)
+   .get("/current", protect, current);
 
 module.exports = usersRouter;
