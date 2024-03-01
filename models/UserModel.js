@@ -41,7 +41,7 @@ userSchema.methods.checkPassword = (candidate, passwordHash) =>
 
 const registerSchema = Joi.object({
    name: Joi.string().min(3).required(),
-   password: Joi.string().required(),
+   password: Joi.string().min(8).max(32).required(),
    email: Joi.string().required(),
 });
 
@@ -51,7 +51,6 @@ const loginSchema = Joi.object({
    token: Joi.string(),
 });
 
-const schema = { registerSchema, loginSchema };
 const User = model("user", userSchema);
 
 module.exports = { loginSchema, registerSchema, User };

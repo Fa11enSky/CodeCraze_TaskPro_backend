@@ -1,11 +1,10 @@
 const { HttpError, ctrlWrapper } = require("../helpers");
-
 const { User } = require("../models/UserModel");
 
 const {
    loginUserSrv,
    logoutUserSrv,
-   addUserSrv,
+   //  addUserSrv,
    currentUserSrv,
 } = require("../services");
 
@@ -35,31 +34,31 @@ class UsersController {
       res.status(204).json();
    });
 
-   register = ctrlWrapper(async (req, res) => {
-      //Валидация
-      // const { error } = await User.validate(req.body);
-      // if (error) throw HttpError(400, error.message);
+   //  register = ctrlWrapper(async (req, res) => {
+   //Валидация
+   // const { error } = await User.validate(req.body);
+   // if (error) throw HttpError(400, error.message);
 
-      //Проверка на уникальность Email
-      const user = await User.findOne({ email: req.body.email });
+   //Проверка на уникальность Email
+   //     const user = await User.findOne({ email: req.body.email });
 
-      if (user) {
-         return res.status(409).json({
-            status: "error",
-            code: 409,
-            message: "Email is already in use",
-            data: "Conflict",
-         });
-      }
+   //     if (user) {
+   //        return res.status(409).json({
+   //           status: "error",
+   //           code: 409,
+   //           message: "Email is already in use",
+   //           data: "Conflict",
+   //        });
+   //     }
 
-      const { email } = await addUserSrv(req.body);
+   //     const { email } = await addUserSrv(req.body);
 
-      res.status(201).json({
-         user: {
-            email,
-         },
-      });
-   });
+   //     res.status(201).json({
+   //        user: {
+   //           email,
+   //        },
+   //     });
+   //  });
 
    current = ctrlWrapper(async (req, res, next) => {
       const { email, name, surname } = await currentUserSrv(req.user.token);

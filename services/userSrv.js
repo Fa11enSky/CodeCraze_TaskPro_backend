@@ -5,61 +5,61 @@ const { signToken } = require("./jwtServices");
 const getUserSrv = async (id) => User.findById(id);
 
 async function currentUserSrv(token) {
-  //Повертає об'єкт доданого юзера (з id).
+   //Повертає об'єкт доданого юзера (з id).
 
-  const user = await User.findOne({ token });
-  if (!user) throw HttpError(401, "User data not found");
+   const user = await User.findOne({ token });
+   if (!user) throw HttpError(401, "User data not found");
 
-  return user;
+   return user;
 }
 
 async function addUserSrv(userData) {
-  //Повертає об'єкт доданого юзера (з id).
-  const resAddDb = await User.create(userData);
+   //Повертає об'єкт доданого юзера (з id).
+   const resAddDb = await User.create(userData);
 
-  return resAddDb;
+   return resAddDb;
 }
 
 async function loginUserSrv({ email, password }) {
-  //Повертає об'єкт доданого юзера (з id).
+   //Повертає об'єкт доданого юзера (з id).
 
-  const user = await User.findOne({ email });
+   const user = await User.findOne({ email });
 
-  console.log(user);
-  if (!user) throw HttpError(401, "Email or password is wrong");
+   console.log(user);
+   if (!user) throw HttpError(401, "Email or password is wrong");
 
-  const isPasswordValidate = await user.checkPassword(password, user.password);
+   const isPasswordValidate = await user.checkPassword(password, user.password);
 
-  if (!isPasswordValidate) throw HttpError(401, "Email or password is wrong");
+   if (!isPasswordValidate) throw HttpError(401, "Email or password is wrong");
 
-  const token = signToken(user.id);
-  user.token = token;
+   const token = signToken(user.id);
+   user.token = token;
 
-  //Добавляем в базу значение ТОКЕНА для пользователя который логинится
-  await User.findByIdAndUpdate(user.id, user);
-  user.password = undefined;
+   //Добавляем в базу значение ТОКЕНА для пользователя который логинится
+   await User.findByIdAndUpdate(user.id, user);
+   user.password = undefined;
 
-  return { user, token };
+   return { user, token };
 }
 
 async function logoutUserSrv(token) {
-  //Повертає об'єкт доданого юзера (з id).
+   //Повертає об'єкт доданого юзера (з id).
 
-  const user = await User.findOne({ token });
-  if (!user) throw HttpError(401, "User data not found");
+   const user = await User.findOne({ token });
+   if (!user) throw HttpError(401, "User data not found");
 
-  user.token = null;
+   user.token = null;
 
-  //Очищаем в базе значение ТОКЕНА для пользователя
-  const userMod = await User.findByIdAndUpdate(user.id, user);
+   //Очищаем в базе значение ТОКЕНА для пользователя
+   const userMod = await User.findByIdAndUpdate(user.id, user);
 
-  return userMod;
+   return userMod;
 }
 
 module.exports = {
-  addUserSrv,
-  loginUserSrv,
-  logoutUserSrv,
-  getUserSrv,
-  currentUserSrv,
+   addUserSrv,
+   loginUserSrv,
+   logoutUserSrv,
+   getUserSrv,
+   currentUserSrv,
 };
