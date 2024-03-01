@@ -1,5 +1,5 @@
 const { HttpError, ctrlWrapper } = require("../../helpers");
-const { User } = require("../../models/UserModel");   
+const { User } = require("../../models");   
 
 const current = ctrlWrapper(async (req, res, next) => {
     const { token } = req.user;

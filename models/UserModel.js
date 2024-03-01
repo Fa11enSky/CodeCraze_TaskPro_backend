@@ -1,6 +1,7 @@
 const { Schema, model } = require("mongoose");
 const { compare, genSalt, hash } = require("bcrypt");
-const { handleMongooseError } = require("../middlewares");
+// const { handleMongooseError } = require("../middlewares");
+const handleMongooseError = require('../middlewares/handleMongooseError')
 
 const userSchema = new Schema(
    {
@@ -38,6 +39,6 @@ userSchema.post("save", handleMongooseError);
 userSchema.methods.checkPassword = (candidate, passwordHash) =>
    compare(candidate, passwordHash);
 
-const User = model("user", userSchema);
+// const User = model("user", userSchema);
 
-module.exports =  User ;
+module.exports =  model("user", userSchema) ;

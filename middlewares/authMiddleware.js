@@ -11,9 +11,8 @@ const protect = ctrlWrapper(async (req, res, next) => {
 
    const id = checkToken(token);
    if (!id) throw HttpError("401", "Not authorized");
-console.log(id);
-   const currentUser = await User.findOne({ id });
-   console.log(currentUser);
+
+   const currentUser = await User.findOne({ token });
    if (!currentUser) throw HttpError("401", "Not authorized");
 
    req.user = currentUser;
