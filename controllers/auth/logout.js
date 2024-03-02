@@ -10,7 +10,7 @@ const logout = ctrlWrapper(async (req, res, next) => {
    user.token = null;
 
    //Очищаем в базе значение ТОКЕНА для пользователя
-   const userMod = await User.findByIdAndUpdate(user.id, user);
+   await User.findByIdAndUpdate(user.id, user);
 
    res.status(204).json();
 });
