@@ -1,3 +1,4 @@
 const currentUser = require("./currentUser");
+const sendHelpMe = require("./helpMe");
 
-module.exports = { currentUser };
+module.exports = { currentUser, sendHelpMe};
