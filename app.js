@@ -1,8 +1,10 @@
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger.json");
 require("dotenv").config();
-const { usersRouter } = require("./routes");
+const { usersRouter, authRouter } = require("./routes");
 
 const app = express();
 
@@ -12,8 +14,13 @@ app.use(express.json());
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 
+app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
-// app.use("/api", postsRouter);
+// app.use("/api/boards", boardsRouter);
+// app.use("/api/columns", columnsRouter);
+// app.use("/api/cards", cardsRouter);
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use((_, res) => {
    res.status(404).json({ message: "Route not found" });
