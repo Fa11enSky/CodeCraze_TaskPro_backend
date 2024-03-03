@@ -1,0 +1,1064 @@
+{
+   "openapi": "3.0.3",
+   "info": {
+      "title": "TaskPro backend docs",
+      "description": "Fake Online REST API for Testing and Prototyping",
+      "version": "1.0.0"
+   },
+   "consumes": ["application/json", "multipart/form-data"],
+   "produces": ["application/json"],
+   "servers": [{ "url": "https://codecraze-taskpro-backend.onrender.com" }],
+   "tags": [
+      {
+         "name": "Auth",
+         "description": "Authorization endpoints"
+      },
+      {
+         "name": "User",
+         "description": "User endpoints"
+      },
+      {
+         "name": "Boards",
+         "description": "User boards endpoints"
+      },
+      {
+         "name": "Columns",
+         "description": "Boards columns endpoints"
+      },
+      {
+         "name": "Cards",
+         "description": "Columns tasks endpoints"
+      }
+   ],
+   "paths": {
+      "/api/auth/register": {
+         "post": {
+            "tags": ["Auth"],
+            "summary": "User registration",
+            "parameters": [],
+            "requestBody": {
+               "description": "# Опис параметрів запиту:\n\n**name** - string, ім'я користувача.\n\n**email** - string, електронна пошта користувача. \n\n**password** - string, пароль користувача. \n",
+               "required": true,
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "$ref": "#/components/schemas/RegistrationRequest"
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "201": {
+                  "description": "**New User Registered**\n\nОпис параметрів відповіді: \n\n**name** - string, ім'я користувача.\n\n**email** - string, електронна пошта користувача. \n\n**theme** - string, тема по замвчанню light. \n\n**avatarURL** - string, посилання на аватар користувача \n\n**token** - string, токен\n",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/RegistrationResponse"
+                        }
+                     }
+                  }
+               },
+               "400": {
+                  "description": "Bad request (invalid request body)",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorBadRequestResponse"
+                        }
+                     }
+                  }
+               },
+               "404": {
+                  "description": "Not found",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorNotFoundResponse"
+                        }
+                     }
+                  }
+               },
+               "409": {
+                  "description": "Email in use",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorNotFoundResponse"
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "Internal Server Error",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorServerResponse"
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "/api/auth/login": {
+         "post": {
+            "tags": ["Auth"],
+            "summary": "User login",
+            "parameters": [],
+            "requestBody": {
+               "description": "# Опис параметрів запиту: \n\n**email** - string, електронна пошта користувача. \n\n**password** - string, пароль користувача. \n",
+               "required": true,
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "$ref": "#/components/schemas/LoginRequest"
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "200": {
+                  "description": "**New User Registered**\n\nОпис параметрів відповіді: \n\n**name** - string, ім'я користувача.\n\n**email** - string, електронна пошта користувача. \n\n**theme** - string, тема по замвчанню light. \n\n**avatarURL** - string, посилання на аватар користувача \n\n**token** - string, токен\n",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/RegistrationResponse"
+                        }
+                     }
+                  }
+               },
+               "400": {
+                  "description": "Bad request (invalid request body)",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorBadRequestResponse"
+                        }
+                     }
+                  }
+               },
+               "401": {
+                  "description": "Email or password is wrong",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorUnauthenticateResponse"
+                        }
+                     }
+                  }
+               },
+               "404": {
+                  "description": "Not found",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorNotFoundResponse"
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "Internal Server Error",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorServerResponse"
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "/api/auth/logout": {
+         "post": {
+            "tags": ["Auth"],
+            "summary": "User logout",
+            "parameters": [],
+            "description": "**Authorization token must be included**",
+            "security": [
+               {
+                  "Bearer": []
+               }
+            ],
+            "responses": {
+               "204": {
+                  "description": "Successful operation, user is logged out. No response content"
+               },
+               "401": {
+                  "description": "Not authorized",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorUnauthorizedResponse"
+                        }
+                     }
+                  }
+               },
+               "404": {
+                  "description": "Not found",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorNotFoundResponse"
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "Server error",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorServerResponse"
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "/api/users/current": {
+         "get": {
+            "tags": ["User"],
+            "summary": "Get current user info",
+            "parameters": [],
+            "description": "**Authorization token must be included**",
+            "security": [
+               {
+                  "Bearer": []
+               }
+            ],
+            "responses": {
+               "200": {
+                  "description": "Ok",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/User"
+                        }
+                     }
+                  }
+               },
+               "401": {
+                  "description": "Not authorized",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorUnauthorizedResponse"
+                        }
+                     }
+                  }
+               },
+               "404": {
+                  "description": "Not found",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorNotFoundResponse"
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "Internal Server Error",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorServerResponse"
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "/api/users/update": {
+         "patch": {
+            "tags": ["User"],
+            "summary": "Update user info",
+            "parameters": [],
+            "description": "**Authorization token must be included**",
+            "security": [
+               {
+                  "Bearer": []
+               }
+            ],
+            "requestBody": {
+               "description": "# Опис параметрів запиту:\n\n**avatar** - string, фото користувача в форматі form-data.\n\n**name** - string, ім'я користувача.\n\n**email** - string, електронна пошта користувача. \n\n**password** - string, пароль користувача. \n\n # Body must have at least one field\n",
+               "required": true,
+               "content": {
+                  "multipart/form-data": {
+                     "schema": {
+                        "$ref": "#/components/schemas/UpdateUserRequest"
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "200": {
+                  "description": "Successful operation, user updated",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/UpdateUserResponse"
+                        }
+                     }
+                  }
+               },
+
+               "400": {
+                  "description": "Bad request (invalid request body)",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorBadRequestResponse"
+                        }
+                     }
+                  }
+               },
+               "401": {
+                  "description": "Not authorized",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorUnauthorizedResponse"
+                        }
+                     }
+                  }
+               },
+               "404": {
+                  "description": "Not found",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorNotFoundResponse"
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "Internal Server Error",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorServerResponse"
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "/api/users/themes": {
+         "patch": {
+            "tags": ["User"],
+            "summary": "Update user`s theme",
+            "parameters": [],
+            "description": "**Authorization token must be included**",
+            "security": [
+               {
+                  "Bearer": []
+               }
+            ],
+            "requestBody": {
+               "description": "User theme updating",
+               "required": true,
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "$ref": "#/components/schemas/ThemeUserRequest"
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "200": {
+                  "description": "Successful operation, theme updated",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/ThemeUserResponse"
+                        }
+                     }
+                  }
+               },
+               "401": {
+                  "description": "Not authorized",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorUnauthorizedResponse"
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+
+      "/api/users/help": {
+         "post": {
+            "tags": ["User"],
+            "summary": "Send email to support",
+            "parameters": [],
+            "description": "**Authorization token must be included**",
+            "security": [
+               {
+                  "Bearer": []
+               }
+            ],
+            "requestBody": {
+               "description": "Help's object",
+               "required": true,
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "$ref": "#/components/schemas/HelpMessageRequest"
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "200": {
+                  "description": "Ok",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/HelpMessageResponse"
+                        }
+                     }
+                  }
+               },
+               "400": {
+                  "description": "Bad request (invalid request body)",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorBadRequestResponse"
+                        }
+                     }
+                  }
+               },
+               "401": {
+                  "description": "Not authorized",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorUnauthorizedResponse"
+                        }
+                     }
+                  }
+               },
+               "404": {
+                  "description": "Not found",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorNotFoundResponse"
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "Internal Server Error",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorServerResponse"
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      }
+   },
+   "components": {
+      "schemas": {
+         "User": {
+            "required": ["name", "email", "theme", "avatarURL"],
+            "type": "object",
+            "properties": {
+               "name": {
+                  "type": "string",
+                  "example": "Myname"
+               },
+               "email": {
+                  "type": "string",
+                  "description": "User's email",
+                  "example": "example@gmail.com",
+                  "format": "email"
+               },
+               "theme": {
+                  "type": "string",
+                  "description": "User's id",
+                  "example": "light"
+               },
+               "avatarURL": {
+                  "type": "string",
+                  "description": "User's avatar",
+                  "example": "https://cloudinary.com/avatar.jpeg"
+               },
+               "activeBoard": {
+                  "type": "string",
+                  "description": "User's active board id",
+                  "example": "649c7cdac8dc5563f4946fe4"
+               }
+            }
+         },
+         "RegistrationRequest": {
+            "type": "object",
+            "required": ["name", "email", "password"],
+            "properties": {
+               "name": {
+                  "type": "string",
+                  "description": "User's name",
+                  "example": "Myname"
+               },
+               "email": {
+                  "type": "string",
+                  "description": "User's email",
+                  "example": "example@gmail.com",
+                  "format": "email"
+               },
+               "password": {
+                  "type": "string",
+                  "description": "User's password",
+                  "example": "qwerty123"
+               }
+            }
+         },
+         "RegistrationResponse": {
+            "type": "object",
+            "properties": {
+               "token": {
+                  "type": "string",
+                  "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaWQiOiIyOWI4ZmZmNS0xN2NjLTQ5NTYtOTViZC1jN2U3N2FkZDEwOWEiLCJpYXQiOjE2ODE4OTM3MzEsImV4cCI6MTAwMDAwMDE2ODE4OTM3MzJ9.hQpNKIj4SR7Gm9waUMn7hzwKQyqwKrniL_qSW7SxrjM"
+               },
+               "user": {
+                  "$ref": "#/components/schemas/User"
+               }
+            },
+            "required": ["user", "token"]
+         },
+         "LoginRequest": {
+            "type": "object",
+            "properties": {
+               "email": {
+                  "type": "string",
+                  "description": "User's email",
+                  "example": "example@gmail.com",
+                  "format": "email"
+               },
+               "password": {
+                  "type": "string",
+                  "description": "User's password",
+                  "example": "qwerty123"
+               }
+            }
+         },
+         "UpdateUserRequest": {
+            "type": "object",
+            "properties": {
+               "name": {
+                  "type": "string",
+                  "description": "User's name. It may contain numbers, signs, letters in different case. It must contain minimum 2 characters.",
+                  "example": "NewName"
+               },
+               "email": {
+                  "type": "string",
+                  "description": "User's email",
+                  "example": "new-email@gmail.com",
+                  "format": "email"
+               },
+               "password": {
+                  "type": "string",
+                  "description": "User's password",
+                  "example": "123qwerty"
+               },
+               "avatar": {
+                  "type": "file",
+                  "format": "binary",
+                  "description": "User's avatar",
+                  "example": "avatar.jpg"
+               }
+            }
+         },
+         "UpdateUserResponse": {
+            "type": "object",
+            "properties": {
+               "name": {
+                  "type": "string",
+                  "description": "User's name.",
+                  "example": "NewUser"
+               },
+               "email": {
+                  "type": "string",
+                  "description": "User's email",
+                  "format": "email",
+                  "example": "new.user@email.com"
+               },
+               "theme": {
+                  "type": "string",
+                  "description": "User's theme",
+                  "enum": ["dark", "violet", "light"],
+                  "example": "dark"
+               },
+               "avatar": {
+                  "type": "string",
+                  "description": "User's avatar",
+                  "example": "https://res.cloudinary.com/task-pro/image/upload/v1223283151/avatars/64ed72852b4609bdb4c73cfb_test.routes%40enail.com.jpg"
+               }
+            }
+         },
+         "CurrentUserResponse": {
+            "type": "object",
+            "required": ["email", "password"],
+            "properties": {
+               "id": {
+                  "type": "string",
+                  "description": "User's id",
+                  "example": "6497272b903f686ac6123cad"
+               },
+               "name": {
+                  "type": "string",
+                  "description": "User's name",
+                  "example": "My name"
+               },
+               "email": {
+                  "type": "string",
+                  "description": "User's email",
+                  "example": "example@gmail.com",
+                  "format": "email"
+               },
+               "avatarURL": {
+                  "type": "string",
+                  "description": "Avatar URL",
+                  "example": "https://cloudinary.com/avatar.jpeg"
+               },
+               "theme": {
+                  "type": "string",
+                  "description": "User's theme",
+                  "example": "dark"
+               }
+            }
+         },
+         "ThemeUserRequest": {
+            "type": "object",
+            "required": ["theme"],
+            "properties": {
+               "theme": {
+                  "type": "string",
+                  "description": "User's theme. Theme field must be one of the next value - light, dark or violet",
+                  "enum": ["dark", "light", "violet"],
+                  "example": "dark"
+               }
+            }
+         },
+         "ThemeUserResponse": {
+            "type": "object",
+            "properties": {
+               "theme": {
+                  "type": "string",
+                  "description": "User's theme",
+                  "enum": ["dark", "light", "violet"],
+                  "example": "dark"
+               },
+               "message": {
+                  "type": "string",
+                  "description": "message",
+                  "example": "The theme has been changed. Now it's a dark theme"
+               }
+            }
+         },
+         "ActiveBoardRequest": {
+            "type": "object",
+            "required": ["activeBoard"],
+            "properties": {
+               "activeBoard": {
+                  "type": "string",
+                  "description": "User's active board ID",
+                  "example": "6497272b903f686ac6123cad"
+               }
+            }
+         },
+         "ActiveBoardResponse": {
+            "type": "object",
+            "properties": {
+               "activeBoard": {
+                  "type": "string",
+                  "description": "User's active board ID",
+                  "example": "6497272b903f686ac6123cad"
+               },
+               "message": {
+                  "type": "string",
+                  "description": "message",
+                  "example": "Active board set to user."
+               }
+            }
+         },
+         "GetBoardsResponse": {
+            "type": "array",
+            "items": {
+               "type": "object",
+               "properties": {
+                  "id": {
+                     "type": "string",
+                     "description": "Board's id",
+                     "example": "6497272b903f686ac6123cad"
+                  },
+                  "title": {
+                     "type": "string",
+                     "description": "Board's title",
+                     "example": "Board title"
+                  },
+                  "icon": {
+                     "type": "string",
+                     "description": "ID зі спрайту - sourse/sprite.svg",
+                     "example": "icon-four-circles"
+                  },
+                  "background": {
+                     "type": "string",
+                     "description": "ID з джсону з бекграундами -  sourse/bgs.json",
+                     "example": "1ADApriYKw4F7"
+                  },
+                  "owner": {
+                     "type": "string",
+                     "description": "Owner`s id",
+                     "example": "6497272b903f686ac6123cad"
+                  }
+               }
+            }
+         },
+         "BoardRequest": {
+            "type": "object",
+            "required": ["title"],
+            "properties": {
+               "title": {
+                  "type": "string",
+                  "description": "Board's title",
+                  "example": "Board title"
+               },
+               "icon": {
+                  "type": "string",
+                  "description": "Board's icon",
+                  "example": "https://cloudinary.com/icon.svg"
+               },
+               "background": {
+                  "type": "string",
+                  "description": "background URL",
+                  "example": "https://cloudinary.com/background.jpeg"
+               }
+            }
+         },
+         "AddBoardResponse": {
+            "type": "object",
+            "properties": {
+               "id": {
+                  "type": "string",
+                  "description": "Board's id",
+                  "example": "6497272b903f686ac6123cad"
+               },
+               "title": {
+                  "type": "string",
+                  "description": "Board's title",
+                  "example": "Board title"
+               },
+               "icon": {
+                  "type": "string",
+                  "description": "Board's icon",
+                  "example": "https://cloudinary.com/icon.svg"
+               },
+               "background": {
+                  "type": "string",
+                  "description": "background URL",
+                  "example": "https://cloudinary.com/background.jpeg"
+               },
+               "owner": {
+                  "type": "string",
+                  "description": "Owner`s id",
+                  "example": "6496f88960259996ba1250a1"
+               }
+            }
+         },
+         "ColumnRequest": {
+            "type": "object",
+            "required": ["title"],
+            "properties": {
+               "title": {
+                  "type": "string",
+                  "description": "Column's title",
+                  "example": "Column title"
+               }
+            }
+         },
+         "ColumnResponse": {
+            "type": "object",
+            "properties": {
+               "id": {
+                  "type": "string",
+                  "description": "Board's id",
+                  "example": "6497272b903f686ac6123cad"
+               },
+               "title": {
+                  "type": "string",
+                  "description": "Board's title",
+                  "example": "Board title"
+               },
+               "owner": {
+                  "type": "string",
+                  "description": "Owner`s id",
+                  "example": "6496f88960259996ba1250a1"
+               }
+            }
+         },
+         "CardRequest": {
+            "type": "object",
+            "required": ["title"],
+            "properties": {
+               "title": {
+                  "type": "string",
+                  "description": "Card's title",
+                  "example": "Card title"
+               },
+               "description": {
+                  "type": "string",
+                  "description": "Card's description",
+                  "example": "Card description"
+               },
+               "label": {
+                  "type": "string",
+                  "description": "Card's label",
+                  "example": "without"
+               },
+               "deadline": {
+                  "type": "string",
+                  "description": "Card's deadline",
+                  "example": "time deadline"
+               }
+            }
+         },
+         "CardUpdateRequest": {
+            "type": "object",
+            "required": ["title"],
+            "properties": {
+               "title": {
+                  "type": "string",
+                  "description": "Card's title",
+                  "example": "Card title"
+               },
+               "description": {
+                  "type": "string",
+                  "description": "Card's description",
+                  "example": "Card description"
+               },
+               "label": {
+                  "type": "string",
+                  "description": "Card's label",
+                  "example": "without"
+               },
+               "deadline": {
+                  "type": "string",
+                  "description": "Card's deadline",
+                  "example": "time deadline"
+               },
+               "cardOwner": {
+                  "type": "string",
+                  "description": "Card's new owner. Column ID",
+                  "example": "6496f88960259996ba1250a1"
+               }
+            }
+         },
+
+         "CardResponse": {
+            "type": "object",
+            "properties": {
+               "id": {
+                  "type": "string",
+                  "description": "Board's id",
+                  "example": "6497272b903f686ac6123cad"
+               },
+               "title": {
+                  "type": "string",
+                  "description": "Card's title",
+                  "example": "Card title"
+               },
+               "description": {
+                  "type": "string",
+                  "description": "Card's description",
+                  "example": "Card description"
+               },
+               "label": {
+                  "type": "string",
+                  "description": "Card's label",
+                  "example": "without"
+               },
+               "deadline": {
+                  "type": "string",
+                  "description": "Card's deadline",
+                  "example": "time deadline"
+               },
+               "cardOwner": {
+                  "type": "string",
+                  "description": "Owner`s id",
+                  "example": "6496f88960259996ba1250a1"
+               }
+            }
+         },
+         "ColumnsAndCardsResponse": {
+            "type": "object",
+            "properties": {
+               "columns": {
+                  "type": "array",
+                  "items": {
+                     "type": "object",
+                     "properties": {
+                        "_id": {
+                           "type": "string",
+                           "description": "Column`s id",
+                           "example": "6496f88960259996ba1250a1"
+                        },
+                        "title": {
+                           "type": "string",
+                           "description": "Column's title",
+                           "example": "Column title"
+                        },
+                        "columnOwner": {
+                           "type": "string",
+                           "description": "ColumnOwner`s id",
+                           "example": "649738732301f0d9412b3b25"
+                        }
+                     }
+                  }
+               },
+               "cards": {
+                  "type": "array",
+                  "items": {
+                     "type": "object",
+                     "properties": {
+                        "_id": {
+                           "type": "string",
+                           "description": "Card`s id",
+                           "example": "6499f64aa82d48b430dafa6a"
+                        },
+                        "title": {
+                           "type": "string",
+                           "description": "Card's title",
+                           "example": "Card title"
+                        },
+                        "description": {
+                           "type": "string",
+                           "description": "Card's description",
+                           "example": "Card description"
+                        },
+                        "label": {
+                           "type": "string",
+                           "description": "Card's label",
+                           "example": "medium"
+                        },
+                        "deadline": {
+                           "type": "string",
+                           "description": "Card's deadline",
+                           "format": "date-time",
+                           "example": "2023-06-28T00:13:53.677+00:00"
+                        },
+                        "cardOwner": {
+                           "type": "string",
+                           "description": "CardOwner`s id",
+                           "example": "6499ce1761db2ad559ea7462"
+                        }
+                     }
+                  }
+               }
+            }
+         },
+         "HelpMessageRequest": {
+            "type": "object",
+            "required": ["email", "comment"],
+            "properties": {
+               "email": {
+                  "type": "string",
+                  "description": "Users's email",
+                  "example": "test@email.com",
+                  "format": "email"
+               },
+               "comment": {
+                  "type": "string",
+                  "description": "User's comment. It must contain minimum 6 characters and maximum 500",
+                  "example": "Hello, world"
+               }
+            }
+         },
+         "HelpMessageResponse": {
+            "type": "object",
+            "properties": {
+               "message": {
+                  "type": "string",
+                  "description": "Message about email sending",
+                  "example": "Email sent successfully"
+               }
+            }
+         },
+         "errorBadRequestResponse": {
+            "type": "object",
+            "properties": {
+               "message": {
+                  "type": "string",
+                  "description": "Error message",
+                  "example": "The specific request body error will be described here."
+               }
+            }
+         },
+         "errorNotFoundResponse": {
+            "type": "object",
+            "properties": {
+               "message": {
+                  "type": "string",
+                  "description": "Error message",
+                  "example": "Not Found"
+               }
+            }
+         },
+         "errorServerResponse": {
+            "type": "object",
+            "properties": {
+               "message": {
+                  "type": "string",
+                  "description": "Error message",
+                  "example": "The specific server error will be described here."
+               }
+            }
+         },
+         "errorUnauthorizedResponse": {
+            "type": "object",
+            "properties": {
+               "message": {
+                  "type": "string",
+                  "description": "Error message",
+                  "example": "Not authorized"
+               }
+            }
+         },
+         "errorUnauthenticateResponse": {
+            "type": "object",
+            "properties": {
+               "message": {
+                  "type": "string",
+                  "description": "Error message",
+                  "example": "Email or password is wrong"
+               }
+            }
+         }
+      },
+
+      "securitySchemes": {
+         "Bearer": {
+            "type": "http",
+            "scheme": "bearer",
+            "bearerFormat": "JWT"
+         }
+      }
+   }
+}
