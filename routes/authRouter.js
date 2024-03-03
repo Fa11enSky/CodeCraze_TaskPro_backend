@@ -1,15 +1,14 @@
 const express = require("express");
 
-const { register, current, logout, login } = require("../controllers/auth");
+const { register, logout, login } = require("../controllers/auth");
 const { protect, validateBody } = require("../middlewares");
 const { registerSchema, loginSchema } = require("../schemas");
 
-const usersRouter = express.Router();
+const authRouter = express.Router();
 
-usersRouter
+authRouter
    .post("/register", validateBody(registerSchema), register)
    .post("/login", validateBody(loginSchema), login)
-   .post("/logout", protect, logout)
-   .get("/current", protect, current);
+   .post("/logout", protect, logout);
 
-module.exports = usersRouter;
+module.exports = authRouter;
