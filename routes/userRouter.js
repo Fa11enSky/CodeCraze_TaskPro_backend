@@ -10,6 +10,6 @@ userRouter
   .get("/current", protect, currentUser)
   .patch("/update")
   .patch("/themes")
-  .post("/help", protect, validateBody(helpSchema), sendHelpMe);
+  .post("/help", validateBody(helpSchema), protect, sendHelpMe);
 
 module.exports = userRouter;
