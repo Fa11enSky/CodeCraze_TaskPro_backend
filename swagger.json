@@ -606,7 +606,7 @@
                   "enum": ["dark", "violet", "light"],
                   "example": "dark"
                },
-               "avatar": {
+               "avatarURL": {
                   "type": "string",
                   "description": "User's avatar",
                   "example": "https://res.cloudinary.com/task-pro/image/upload/v1223283151/avatars/64ed72852b4609bdb4c73cfb_test.routes%40enail.com.jpg"

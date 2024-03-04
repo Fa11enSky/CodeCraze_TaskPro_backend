@@ -10,8 +10,7 @@ const register = ctrlWrapper(async (req, res) => {
       throw HttpError(409, "Email in use");
    }
 
-   //! додати  запит на базову аватарку
-   const avatarURL = "https://cloudinary.com/avatar.jpeg";
+   const avatarURL = null;
 
    const newUser = await User.create({ ...req.body, avatarURL });
 
