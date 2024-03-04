@@ -25,6 +25,10 @@ const login = ctrlWrapper(async (req, res, next) => {
         token,
         user: {
             email: user.email,
+            name: user.name,
+            theme: "light",
+            avatarUrl: "https://cloudinary.com/avatar.jpg",
+            activeBoard: "",
         },
     });
 });

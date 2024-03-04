@@ -49,7 +49,7 @@
             },
             "responses": {
                "201": {
-                  "description": "**New User Registered**\n\nОпис параметрів відповіді: \n\n**name** - string, ім'я користувача.\n\n**email** - string, електронна пошта користувача. \n\n**theme** - string, тема по замвчанню light. \n\n**avatarURL** - string, посилання на аватар користувача \n\n**token** - string, токен\n",
+                  "description": "**New User Registered**\n\nОпис параметрів відповіді: \n\n**name** - string, ім'я користувача.\n\n**email** - string, електронна пошта користувача. \n\n**theme** - string, тема по замвчанню light. \n\n**avatarURL** - null, посилання на аватар користувача по замовчанню \n\n**token** - string, токен\n",
                   "content": {
                      "application/json": {
                         "schema": {
@@ -83,7 +83,7 @@
                   "content": {
                      "application/json": {
                         "schema": {
-                           "$ref": "#/components/schemas/errorNotFoundResponse"
+                           "$ref": "#/components/schemas/errorEmailInUse"
                         }
                      }
                   }
@@ -119,11 +119,11 @@
             },
             "responses": {
                "200": {
-                  "description": "**New User Registered**\n\nОпис параметрів відповіді: \n\n**name** - string, ім'я користувача.\n\n**email** - string, електронна пошта користувача. \n\n**theme** - string, тема по замвчанню light. \n\n**avatarURL** - string, посилання на аватар користувача \n\n**token** - string, токен\n",
+                  "description": "**New User Registered**\n\nОпис параметрів відповіді: \n\n**name** - string, ім'я користувача.\n\n**email** - string, електронна пошта користувача. \n\n**theme** - string, тема по замвчанню light. \n\n**avatarURL** - null||string, посилання на аватар користувача \n\n**token** - string, токен\n",
                   "content": {
                      "application/json": {
                         "schema": {
-                           "$ref": "#/components/schemas/RegistrationResponse"
+                           "$ref": "#/components/schemas/LoginResponse"
                         }
                      }
                   }
@@ -236,7 +236,7 @@
                   "content": {
                      "application/json": {
                         "schema": {
-                           "$ref": "#/components/schemas/User"
+                           "$ref": "#/components/schemas/CurrentUserResponse"
                         }
                      }
                   }
@@ -334,6 +334,16 @@
                      "application/json": {
                         "schema": {
                            "$ref": "#/components/schemas/errorNotFoundResponse"
+                        }
+                     }
+                  }
+               },
+               "409": {
+                  "description": "Email in use",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorEmailInUse"
                         }
                      }
                   }
@@ -477,6 +487,37 @@
    },
    "components": {
       "schemas": {
+         "NewUser": {
+            "required": ["name", "email", "theme", "avatarURL"],
+            "type": "object",
+            "properties": {
+               "name": {
+                  "type": "string",
+                  "example": "Myname"
+               },
+               "email": {
+                  "type": "string",
+                  "description": "User's email",
+                  "example": "example@gmail.com",
+                  "format": "email"
+               },
+               "theme": {
+                  "type": "string",
+                  "description": "User's id",
+                  "example": "light"
+               },
+               "avatarURL": {
+                  "type": "string",
+                  "description": "User's avatar",
+                  "example": null
+               },
+               "activeBoard": {
+                  "type": "string",
+                  "description": "User's active board id",
+                  "example": "649c7cdac8dc5563f4946fe4"
+               }
+            }
+         },
          "User": {
             "required": ["name", "email", "theme", "avatarURL"],
             "type": "object",
@@ -499,7 +540,7 @@
                "avatarURL": {
                   "type": "string",
                   "description": "User's avatar",
-                  "example": "https://cloudinary.com/avatar.jpeg"
+                  "example": "https://res.cloudinary.com/dpwloumk0/image/upload/v1709515495/avatars/user_avatar-65e522af443ee9ab3bfa8384.jpg"
                },
                "activeBoard": {
                   "type": "string",
@@ -531,6 +572,19 @@
             }
          },
          "RegistrationResponse": {
+            "type": "object",
+            "properties": {
+               "token": {
+                  "type": "string",
+                  "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaWQiOiIyOWI4ZmZmNS0xN2NjLTQ5NTYtOTViZC1jN2U3N2FkZDEwOWEiLCJpYXQiOjE2ODE4OTM3MzEsImV4cCI6MTAwMDAwMDE2ODE4OTM3MzJ9.hQpNKIj4SR7Gm9waUMn7hzwKQyqwKrniL_qSW7SxrjM"
+               },
+               "user": {
+                  "$ref": "#/components/schemas/NewUser"
+               }
+            },
+            "required": ["user", "token"]
+         },
+         "LoginResponse": {
             "type": "object",
             "properties": {
                "token": {
@@ -582,34 +636,15 @@
                   "type": "file",
                   "format": "binary",
                   "description": "User's avatar",
-                  "example": "avatar.jpg"
+                  "example": "https://res.cloudinary.com/dpwloumk0/image/upload/v1709515495/avatars/user_avatar-65e522af443ee9ab3bfa8384.jpg"
                }
             }
          },
          "UpdateUserResponse": {
             "type": "object",
             "properties": {
-               "name": {
-                  "type": "string",
-                  "description": "User's name.",
-                  "example": "NewUser"
-               },
-               "email": {
-                  "type": "string",
-                  "description": "User's email",
-                  "format": "email",
-                  "example": "new.user@email.com"
-               },
-               "theme": {
-                  "type": "string",
-                  "description": "User's theme",
-                  "enum": ["dark", "violet", "light"],
-                  "example": "dark"
-               },
-               "avatar": {
-                  "type": "string",
-                  "description": "User's avatar",
-                  "example": "https://res.cloudinary.com/task-pro/image/upload/v1223283151/avatars/64ed72852b4609bdb4c73cfb_test.routes%40enail.com.jpg"
+               "user": {
+                  "$ref": "#/components/schemas/User"
                }
             }
          },
@@ -1008,6 +1043,16 @@
                   "type": "string",
                   "description": "Error message",
                   "example": "The specific request body error will be described here."
+               }
+            }
+         },
+         "errorEmailInUse": {
+            "type": "object",
+            "properties": {
+               "message": {
+                  "type": "string",
+                  "description": "Error message",
+                  "example": "Email in use"
                }
             }
          },
