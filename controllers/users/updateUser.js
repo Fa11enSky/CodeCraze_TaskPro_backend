@@ -24,7 +24,7 @@ const updateUser = ctrlWrapper(async (req, res) => {
       updatedUser.password = await bcrypt.hash(password, 10);
    }
 
-   if (email && email !== req.user.email) {
+   if (email) {
       updatedUser.email = email;
    }
 
@@ -43,18 +43,22 @@ const updateUser = ctrlWrapper(async (req, res) => {
       updatedUser.avatarURL = newAvatarURL;
    }
 
-   console.log(updatedUser);
    const updatedUserKeys = Object.keys(updatedUser).length;
 
    if (!updatedUserKeys) {
       throw HttpError(400, "No changes were made");
    }
 
-   await User.findByIdAndUpdate(_id, updatedUser, {
+   const result = await User.findByIdAndUpdate(_id, updatedUser, {
       new: true,
    });
 
-   res.json(updatedUser);
+   res.json({
+      name: result.name,
+      email: result.email,
+      theme: result.theme,
+      avatarURL: result.avatarURL,
+   });
 });
 
 module.exports = updateUser;

@@ -83,7 +83,7 @@
                   "content": {
                      "application/json": {
                         "schema": {
-                           "$ref": "#/components/schemas/errorNotFoundResponse"
+                           "$ref": "#/components/schemas/errorEmailInUse"
                         }
                      }
                   }
@@ -334,6 +334,16 @@
                      "application/json": {
                         "schema": {
                            "$ref": "#/components/schemas/errorNotFoundResponse"
+                        }
+                     }
+                  }
+               },
+               "409": {
+                  "description": "Email in use",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorEmailInUse"
                         }
                      }
                   }
@@ -1033,6 +1043,16 @@
                   "type": "string",
                   "description": "Error message",
                   "example": "The specific request body error will be described here."
+               }
+            }
+         },
+         "errorEmailInUse": {
+            "type": "object",
+            "properties": {
+               "message": {
+                  "type": "string",
+                  "description": "Error message",
+                  "example": "Email in use"
                }
             }
          },
