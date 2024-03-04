@@ -3,14 +3,14 @@ const { HttpError } = require("../helpers/index.js");
 
 require("dotenv").config();
 
-const { SECRET_KEY } = process.env; // Из файла .env
+const { JWT_SECRET } = process.env; // Из файла .env
 
-const signToken = (id) => jwt.sign({ id }, SECRET_KEY, { expiresIn: "1h" });
+const signToken = (id) => jwt.sign({ id }, JWT_SECRET, { expiresIn: "1h" });
 
 const checkToken = (token) => {
   if (!token) throw HttpError(401, "Not authorized");
   try {
-    const { id } = jwt.verify(token, SECRET_KEY);
+    const { id } = jwt.verify(token, JWT_SECRET);
     return id;
   } catch (error) {
     throw HttpError(401, "Not authorized");

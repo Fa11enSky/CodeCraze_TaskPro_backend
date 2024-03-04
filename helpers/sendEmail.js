@@ -2,9 +2,9 @@ const sendgrid = require("@sendgrid/mail");
 
 require("dotenv").config();
 
-const { SG_TOKEN, EMAIL_HELP } = process.env; // Из файла .env
+const { SENDGRID_API_KEY, EMAIL_HELP } = process.env; // Из файла .env
 
-sendgrid.setApiKey(SG_TOKEN);
+sendgrid.setApiKey(SENDGRID_API_KEY);
 
 const sendHelpMeEmail = async (data) => {
   const email = {
