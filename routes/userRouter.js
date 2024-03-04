@@ -1,12 +1,14 @@
 const express = require("express");
 
-const { currentUser, updateUser } = require("../controllers/users");
+
+const { currentUser, updateUser,sendHelpMe } = require("../controllers/users");
 const { protect, validateBody, upload } = require("../middlewares");
-const { updateUserSchema } = require("../schemas");
+const { updateUserSchema,helpSchema } = require("../schemas");
 
 const userRouter = express.Router();
 
 userRouter
+
    .get("/current", protect, currentUser)
    .patch(
       "/update",
@@ -16,6 +18,6 @@ userRouter
       updateUser
    )
    .patch("/themes")
-   .post("/help");
+   .post("/help", validateBody(helpSchema), protect, sendHelpMe);
 
 module.exports = userRouter;
