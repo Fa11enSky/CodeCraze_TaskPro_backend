@@ -1,12 +1,11 @@
 const { HttpError, ctrlWrapper } = require("../../helpers");
-const  {User}  = require("../../models");  
+const { User } = require("../../models");
 const { signToken } = require("../../services");
 
-
 const login = ctrlWrapper(async (req, res, next) => {
-    const { email, password } = req.body;
-        
-    const user = await User.findOne({ email });
+   const { email, password } = req.body;
+
+   const user = await User.findOne({ email });
    if (!user) throw HttpError(401, "Email or password is wrong");
 
    const isPasswordValidate = await user.checkPassword(password, user.password);
@@ -19,18 +18,18 @@ const login = ctrlWrapper(async (req, res, next) => {
    await User.findByIdAndUpdate(user.id, user);
    user.password = undefined;
 
-      res.user = user;
+   res.user = user;
 
-    res.status(200).json({
-        token,
-        user: {
-            email: user.email,
-            name: user.name,
-            theme: "light",
-            avatarUrl: "https://cloudinary.com/avatar.jpg",
-            activeBoard: "",
-        },
-    });
+   res.status(200).json({
+      token,
+      user: {
+         name: user.name,
+         email: user.email,
+         theme: user.theme,
+         avatarUrl: user.avatarURL,
+         activeBoard: user.activeBoard,
+      },
+   });
 });
-   
+
 module.exports = login;

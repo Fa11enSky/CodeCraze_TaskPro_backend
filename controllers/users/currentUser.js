@@ -7,11 +7,14 @@ const currentUser = ctrlWrapper(async (req, res, next) => {
    const user = await User.findOne({ token });
 
    if (!user) throw HttpError(401, "User data not found");
-   const { name, email } = user;
 
    res.status(200).json({
-      name,
-      email,
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      theme: user.theme,
+      avatarUrl: user.avatarURL,
+      activeBoard: user.activeBoard,
    });
 });
 

@@ -11,8 +11,9 @@ const register = ctrlWrapper(async (req, res) => {
    }
 
    const avatarURL = null;
+   const activeBoard = null;
 
-   const newUser = await User.create({ ...req.body, avatarURL });
+   const newUser = await User.create({ ...req.body, avatarURL, activeBoard });
 
    const { _id: id } = newUser;
 
@@ -26,6 +27,7 @@ const register = ctrlWrapper(async (req, res) => {
          email: newUser.email,
          theme: newUser.theme,
          avatarURL: newUser.avatarURL,
+         activeBoard: newUser.activeBoard,
       },
    });
 });
