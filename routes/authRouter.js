@@ -7,8 +7,8 @@ const { registerSchema, loginSchema } = require("../schemas");
 const authRouter = express.Router();
 
 authRouter
-   .post("/register", validateBody(registerSchema), register)
-   .post("/login", validateBody(loginSchema), login)
-   .post("/logout", protect, logout);
+  .post("/register", validateBody(registerSchema), register)
+  .post("/login", validateBody(loginSchema), login)
+  .post("/logout", protect, logout);
 
 module.exports = authRouter;
