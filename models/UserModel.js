@@ -1,6 +1,5 @@
 const { Schema, model } = require("mongoose");
 const { compare, genSalt, hash } = require("bcrypt");
-// const { handleMongooseError } = require("../middlewares");
 const handleMongooseError = require("../middlewares/handleMongooseError");
 
 const userSchema = new Schema(
@@ -27,6 +26,7 @@ const userSchema = new Schema(
          default: "light",
       },
       avatarURL: { type: String },
+      activeBoard: { type: String },
    },
    { versionKey: false, timestamps: true }
 );
