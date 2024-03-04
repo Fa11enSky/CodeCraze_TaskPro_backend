@@ -16,7 +16,7 @@ const updateUser = ctrlWrapper(async (req, res) => {
 
    const updatedUser = {};
 
-   if (name) {
+   if (name && name !== req.user.name) {
       updatedUser.name = name;
    }
 
@@ -24,7 +24,7 @@ const updateUser = ctrlWrapper(async (req, res) => {
       updatedUser.password = await bcrypt.hash(password, 10);
    }
 
-   if (email) {
+   if (email && email !== req.user.email) {
       updatedUser.email = email;
    }
 
@@ -43,22 +43,18 @@ const updateUser = ctrlWrapper(async (req, res) => {
       updatedUser.avatarURL = newAvatarURL;
    }
 
+   console.log(updatedUser);
    const updatedUserKeys = Object.keys(updatedUser).length;
 
    if (!updatedUserKeys) {
-      throw HttpError(400, "Request must have at least one field");
+      throw HttpError(400, "No changes were made");
    }
 
-   const result = await User.findByIdAndUpdate(_id, updatedUser, {
+   await User.findByIdAndUpdate(_id, updatedUser, {
       new: true,
    });
 
-   res.json({
-      name: result.name,
-      email: result.email,
-      theme: result.theme,
-      avatarURL: result.avatarURL,
-   });
+   res.json(updatedUser);
 });
 
 module.exports = updateUser;
