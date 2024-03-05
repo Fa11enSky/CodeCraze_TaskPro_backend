@@ -46,6 +46,4 @@ userSchema.post("save", handleMongooseError);
 userSchema.methods.checkPassword = (candidate, passwordHash) =>
    compare(candidate, passwordHash);
 
-// const User = model("user", userSchema);
-
 module.exports = model("user", userSchema);
