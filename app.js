@@ -4,7 +4,7 @@ const cors = require("cors");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger.json");
 require("dotenv").config();
-const { usersRouter, authRouter } = require("./routes");
+const { usersRouter, authRouter, boardsRouter } = require("./routes");
 
 const app = express();
 
@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
-// app.use("/api/boards", boardsRouter);
+app.use("/api/boards", boardsRouter);
 // app.use("/api/columns", columnsRouter);
 // app.use("/api/cards", cardsRouter);
 
