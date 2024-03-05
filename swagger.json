@@ -373,7 +373,7 @@
                }
             ],
             "requestBody": {
-               "description": "User theme updating",
+               "description": "**User theme updating** \n\n # Опис параметрів запиту: \n\n**theme** - string,  можливі значення light | violet | dark",
                "required": true,
                "content": {
                   "application/json": {
@@ -390,6 +390,16 @@
                      "application/json": {
                         "schema": {
                            "$ref": "#/components/schemas/ThemeUserResponse"
+                        }
+                     }
+                  }
+               },
+               "400": {
+                  "description": "Bad request (invalid request body)",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorBadRequestResponse"
                         }
                      }
                   }
@@ -552,6 +562,188 @@
                      "application/json": {
                         "schema": {
                            "$ref": "#/components/schemas/errorServerResponse"
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "/api/boards": {
+         "get": {
+            "tags": ["Boards"],
+            "summary": "Getting user`s boards list",
+            "parameters": [],
+            "description": "**Authorization token must be included**",
+            "security": [
+               {
+                  "Bearer": []
+               }
+            ],
+            "responses": {
+               "200": {
+                  "description": "Successful operation, boards list received",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/GetBoardsResponse"
+                        }
+                     }
+                  }
+               },
+               "401": {
+                  "description": "Not authorized",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorUnauthorizedResponse"
+                        }
+                     }
+                  }
+               }
+            }
+         },
+         "post": {
+            "tags": ["Boards"],
+            "summary": "Add board to user",
+            "parameters": [],
+            "description": "**Authorization token must be included**",
+            "security": [
+               {
+                  "Bearer": []
+               }
+            ],
+            "requestBody": {
+               "description": "",
+               "required": true,
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "$ref": "#/components/schemas/BoardRequest"
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "200": {
+                  "description": "Ok",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/AddBoardResponse"
+                        }
+                     }
+                  }
+               },
+               "401": {
+                  "description": "Not authorized",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorUnauthorizedResponse"
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "/api/boards/{boardId}": {
+         "get": {
+            "tags": ["Boards"],
+            "summary": "Get all colomns and cards of board",
+            "parameters": [],
+            "description": "**Authorization token must be included**",
+            "security": [
+               {
+                  "Bearer": []
+               }
+            ],
+            "responses": {
+               "200": {
+                  "description": "Ok",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/ColumnsAndCardsResponse"
+                        }
+                     }
+                  }
+               },
+               "401": {
+                  "description": "Not authorized",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorUnauthorizedResponse"
+                        }
+                     }
+                  }
+               }
+            }
+         },
+         "patch": {
+            "tags": ["Boards"],
+            "summary": "Update board fields",
+            "parameters": [],
+            "description": "**Authorization token must be included**",
+            "security": [
+               {
+                  "Bearer": []
+               }
+            ],
+            "requestBody": {
+               "description": "",
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "$ref": "#/components/schemas/BoardRequest"
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "200": {
+                  "description": "Ok",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/AddBoardResponse"
+                        }
+                     }
+                  }
+               },
+               "401": {
+                  "description": "Not authorized",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorUnauthorizedResponse"
+                        }
+                     }
+                  }
+               }
+            }
+         },
+         "delete": {
+            "tags": ["Boards"],
+            "summary": "Remove board",
+            "description": "**Authorization token must be included**",
+            "security": [
+               {
+                  "Bearer": []
+               }
+            ],
+            "responses": {
+               "200": {
+                  "description": "Board, it's Columns and Column`s cards deleted"
+               },
+               "401": {
+                  "description": "Not authorized",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorUnauthorizedResponse"
                         }
                      }
                   }
@@ -827,11 +1019,11 @@
                   "title": {
                      "type": "string",
                      "description": "Board's title",
-                     "example": "Board title"
+                     "example": "My Board"
                   },
                   "icon": {
                      "type": "string",
-                     "description": "ID зі спрайту - sourse/sprite.svg",
+                     "description": "Board's icon - id зі  sourse/sprite.svg",
                      "example": "icon-four-circles"
                   },
                   "background": {

@@ -58,6 +58,7 @@ const updateUser = ctrlWrapper(async (req, res) => {
       email: result.email,
       theme: result.theme,
       avatarURL: result.avatarURL,
+      activeBoard: result.activeBoard,
    });
 });
 
