@@ -12,7 +12,7 @@ const { addColumnSchema } = require("../schemas");
 
 const columnsRouter = express.Router();
 
-columnsRouter.post("/", protect, validateBody(addColumnSchema), addColumn);
+columnsRouter.post("/:id", protect, validateBody(addColumnSchema), addColumn);
 //   .get("/", protect, getColumns)
 //   .get("/:id", protect, getColumnById);
 // .patch("/:id", protect, validateBody(updateColumnSchema), updateColumn)

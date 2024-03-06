@@ -2,6 +2,7 @@ const { Column } = require("../../models");
 const { HttpError, ctrlWrapper } = require("../../helpers");
 
 const addColumn = ctrlWrapper(async (req, res) => {
+  const { id: columnOwner } = req.params;
   const { title } = req.body;
 
   const isColumnExists = await Column.findOne({ title });
