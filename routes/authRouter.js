@@ -6,6 +6,7 @@ const { registerSchema, loginSchema } = require("../schemas");
 
 const authRouter = express.Router();
 
+console.log(authRouter);
 authRouter
   .post("/register", validateBody(registerSchema), register)
   .post("/login", validateBody(loginSchema), login)
