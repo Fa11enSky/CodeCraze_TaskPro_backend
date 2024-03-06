@@ -7,7 +7,7 @@ const {
 } = require("./userSchemas");
 const { addBoardSchema } = require("./boardSchemas");
 
-const addColumnSchema = require("./columnSchema");
+const { addColumnSchema, updateColumnSchema } = require("./columnSchema");
 
 module.exports = {
   registerSchema,
@@ -18,4 +18,5 @@ module.exports = {
   updateActiveBoardSchema,
   addBoardSchema,
   addColumnSchema,
+  updateColumnSchema,
 };

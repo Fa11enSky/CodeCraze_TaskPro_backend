@@ -7,4 +7,10 @@ const addColumnSchema = Joi.object({
   columnOwner: Joi.string(),
 });
 
-module.exports = { addColumnSchema };
+const updateColumnSchema = Joi.object({
+  title: Joi.string()
+    .required()
+    .messages({ "any.required": "missing required Column title" }),
+});
+
+module.exports = { addColumnSchema, updateColumnSchema };
