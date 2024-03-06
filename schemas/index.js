@@ -6,6 +6,7 @@ const {
   updateActiveBoardSchema,
 } = require("./userSchemas");
 const { addBoardSchema } = require("./boardSchemas");
+const { addCardSchema, updateCardSchema } = require("./cardSchemas");
 
 const { addColumnSchema, updateColumnSchema } = require("./columnSchema");
 
@@ -19,4 +20,6 @@ module.exports = {
   addBoardSchema,
   addColumnSchema,
   updateColumnSchema,
+  addCardSchema,
+  updateCardSchema,
 };
