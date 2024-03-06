@@ -6,8 +6,9 @@ const addBoard = ctrlWrapper(async (req, res) => {
    const { title } = req.body;
 
    const isBoardExists = await Board.findOne({ owner, title });
+
    if (isBoardExists) {
-      throw HttpError(404, `Board "${title}" already exist`);
+      throw HttpError(409, `Board "${title}" already exist`);
    }
    const result = await Board.create({ ...req.body, owner });
    res.status(201).json(result);

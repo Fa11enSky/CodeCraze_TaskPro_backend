@@ -1,8 +1,8 @@
 const express = require("express");
 
 const {
-   //getBoard,
-   //getBoardById,
+   getBoards,
+   getBoardById,
    addBoard,
    //updateBoard,
    //deleteBoard,
@@ -12,9 +12,10 @@ const { addBoardSchema } = require("../schemas");
 
 const boardsRouter = express.Router();
 
-boardsRouter.post("/", protect, validateBody(addBoardSchema), addBoard);
-// .get("/", protect, getBoard)
-// .get("/:id", protect, getBoardById)
+boardsRouter
+   .post("/", protect, validateBody(addBoardSchema), addBoard)
+   .get("/", protect, getBoards)
+   .get("/:id", protect, getBoardById);
 // .patch("/:id", protect, validateBody(updateBoardSchema), updateBoard)
 // .delete("/:id", protect, deleteBoard);
 

@@ -30,7 +30,7 @@ const boardSchema = new Schema(
          ref: "user",
       },
    },
-   { versionKey: false, timestamps: false }
+   { versionKey: false }
 );
 
 boardSchema.post("save", handleMongooseError);
