@@ -10,7 +10,7 @@ const addColumn = ctrlWrapper(async (req, res) => {
     throw HttpError(409, `Column "${title}" already exist`);
   }
 
-  const result = await Column.create({ title });
+  const result = await Column.create({ ...req.body, columnOwner });
   res.status(201).json(result);
 });
 
