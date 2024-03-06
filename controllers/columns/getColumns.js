@@ -2,9 +2,9 @@ const { Column } = require("../../models");
 const { ctrlWrapper } = require("../../helpers");
 
 const getColumns = ctrlWrapper(async (req, res) => {
-  const { owner } = req.body;
+  const { _id: owner } = req.user;
 
-  const result = await Board.find({ owner });
+  const result = await Column.find({ owner });
   res.json(result);
 });
 
