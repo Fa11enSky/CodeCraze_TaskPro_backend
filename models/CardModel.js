@@ -1,19 +1,19 @@
 
-const { Schema, models } = require("mongoose");
+const { Schema, model } = require("mongoose");
 const handleMongooseError = require("../middlewares/handleMongooseError");
 
 const cardSchema = new Schema(
     {
         title: {
-            type: string,
+            type: String,
             required: [true, "Set name for card title"],
         },
         description: {
-            type: string,
+            type: String,
             default: null,
         },
         label: {
-            type: string,
+            type: String,
             enum: ["without", "low", "medium", "high"],
       default: "without",
         },
@@ -31,3 +31,6 @@ const cardSchema = new Schema(
 
 
 
+cardSchema.post("save", handleMongooseError);
+
+module.exports = model("card", cardSchema);
