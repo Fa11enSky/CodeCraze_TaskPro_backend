@@ -572,7 +572,7 @@
       "/api/boards": {
          "get": {
             "tags": ["Boards"],
-            "summary": "Getting user`s boards list",
+            "summary": "Get user`s boards list",
             "parameters": [],
             "description": "**Authorization token must be included**",
             "security": [
@@ -614,7 +614,7 @@
                }
             ],
             "requestBody": {
-               "description": "",
+               "description": "\n\n # Опис параметрів запиту:\n\n**title** - string, назва дошки, **required**.\n\n**icon** - string, іконка зі списку, defalt -icon-project-. \n\n**background** - null||string, фон картки. \n",
                "required": true,
                "content": {
                   "application/json": {
@@ -635,12 +635,32 @@
                      }
                   }
                },
+               "400": {
+                  "description": "Bad request (invalid request body)",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorBadRequestResponse"
+                        }
+                     }
+                  }
+               },
                "401": {
                   "description": "Not authorized",
                   "content": {
                      "application/json": {
                         "schema": {
                            "$ref": "#/components/schemas/errorUnauthorizedResponse"
+                        }
+                     }
+                  }
+               },
+               "409": {
+                  "description": "Email in use",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorBoardTitleInUse"
                         }
                      }
                   }
@@ -1051,12 +1071,12 @@
                "icon": {
                   "type": "string",
                   "description": "Board's icon",
-                  "example": "https://cloudinary.com/icon.svg"
+                  "example": "icon-project"
                },
                "background": {
                   "type": "string",
-                  "description": "background URL",
-                  "example": "https://cloudinary.com/background.jpeg"
+                  "description": "Board's background",
+                  "example": "background"
                }
             }
          },
@@ -1066,7 +1086,7 @@
                "id": {
                   "type": "string",
                   "description": "Board's id",
-                  "example": "6497272b903f686ac6123cad"
+                  "example": "65e785b205fbc60c7c4984cd"
                },
                "title": {
                   "type": "string",
@@ -1076,17 +1096,17 @@
                "icon": {
                   "type": "string",
                   "description": "Board's icon",
-                  "example": "https://cloudinary.com/icon.svg"
+                  "example": "icon-project"
                },
                "background": {
                   "type": "string",
-                  "description": "background URL",
-                  "example": "https://cloudinary.com/background.jpeg"
+                  "description": "Board's background",
+                  "example": "background"
                },
                "owner": {
                   "type": "string",
                   "description": "Owner`s id",
-                  "example": "6496f88960259996ba1250a1"
+                  "example": "65e7228866e43c6075e5d2f5"
                }
             }
          },
@@ -1325,6 +1345,16 @@
                   "type": "string",
                   "description": "Error message",
                   "example": "Email in use"
+               }
+            }
+         },
+         "errorBoardTitleInUse": {
+            "type": "object",
+            "properties": {
+               "message": {
+                  "type": "string",
+                  "description": "Error message",
+                  "example": "Board \"Board title\" already exists"
                }
             }
          },
