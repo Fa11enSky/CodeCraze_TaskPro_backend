@@ -4,7 +4,7 @@ const Column = require("./ColumnModel");
 const Card = require("./CardModel");
 
 
-module.exports = { User, Board, Card,Column };
+module.exports = { User, Board, Card, Column };
 
 
 
