@@ -1,60 +1,53 @@
 const mongoose = require("mongoose");
 const { Board } = require("../../models");
-const { ctrlWrapper, HttpError } = require("../../helpers");
+
+const { HttpError, ctrlWrapper } = require("../../helpers");
 
 const getBoardById = ctrlWrapper(async (req, res) => {
    const { id } = req.params;
 
    const board = await Board.aggregate([
-      {
-         $match: {
-            _id: new mongoose.Types.ObjectId(id),
-         },
-      },
+      { $match: { _id: new mongoose.Types.ObjectId(id) } }, // Знаходимо дошку за її ID
       {
          $lookup: {
             from: "columns",
             localField: "_id",
-            foreignField: "board",
+            foreignField: "columnOwner",
             as: "columns",
          },
-      },
-      {
-         $unwind: {
-            path: "$columns",
-            preserveNullAndEmptyArrays: true,
-         },
-      },
+      }, // Пов'язуємо колонки з дошкою
+      { $unwind: { path: "$columns", preserveNullAndEmptyArrays: true } }, // Розгортаємо масив колонок
       {
          $lookup: {
             from: "cards",
             localField: "columns._id",
-            foreignField: "column",
+            foreignField: "cardOwner",
             as: "columns.cards",
          },
-      },
-      {
-         $group: {
-            _id: "$_id",
-            title: { $first: "$title" },
-            background: { $first: "$background" },
-            columns: {
-               $push: {
-                  _id: "$columns._id",
-                  title: "$columns.title",
-                  cards: "$columns.cards",
-               },
-            },
-            title: { $first: "$title" }, // Добавляем второй раз, чтобы убедиться, что title сохраняется
-         },
-      },
+      }, // Пов'язуємо картки з колонками
    ]);
 
-   if (!board) {
-      throw HttpError(404, "Board is not found");
+   // Якщо дошка не знайдена, повертаємо помилку 404
+   if (!board || board.length === 0) {
+      throw HttpError(404, `Board with id${id} is not found`);
    }
 
-   res.json(board[0]);
+   // Перетворюємо результат агрегації у об'єкт
+   const formattedBoard = {
+      _id: board[0]._id,
+      title: board[0].title,
+      icon: board[0].icon,
+      background: board[0].background,
+      owner: board[0].owner,
+      columns: board.map((col) => ({
+         _id: col.columns._id,
+         title: col.columns.title,
+         columnOwner: col.columns.columnOwner,
+         cards: col.columns.cards,
+      })),
+   };
+
+   res.json(formattedBoard);
 });
 
 module.exports = getBoardById;
