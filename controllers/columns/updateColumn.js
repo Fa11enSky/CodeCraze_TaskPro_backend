@@ -1,11 +1,11 @@
-const { ctrlWrapper } = require("../../helpers");
-const { Card, Column } = require("../../models");
+const { ctrlWrapper, HttpError } = require("../../helpers");
+const { Column } = require("../../models");
 
 const updateColumn = ctrlWrapper(async (req, res) => {
-    const { id } = req.params;
+    const { id: columnOwner  } = req.params;
     const { title } = req.body;
     
-    const isColumnExists = await Column.findOne({ title });
+    const isColumnExists = await Column.findOne({columnOwner , title });
 
   if (isColumnExists) {
     throw HttpError(409, `Column "${title}" already exist`);
@@ -13,7 +13,10 @@ const updateColumn = ctrlWrapper(async (req, res) => {
     
     const result = await Column.findOneAndUpdate({ _id: id }, { title }, { new: true });
     
-  res.json(result);
+   res.json({
+    id,
+    message: `Column with id ${id} updated successfully`
+  });
 });
 
 module.exports = updateColumn;
