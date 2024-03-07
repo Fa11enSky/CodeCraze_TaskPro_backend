@@ -750,7 +750,14 @@
             ],
             "responses": {
                "200": {
-                  "description": "Board, it's Columns and Column`s cards deleted"
+                  "description": "Board, it's Columns and Column`s cards deleted",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/deleteBoardResponse"
+                        }
+                     }
+                  }
                },
                "401": {
                   "description": "Not authorized",
@@ -918,7 +925,13 @@
             "responses": {
                "200": {
                   "description": "Column and it's cards are deleted",
-                  "content": {}
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/deleteColumnResponse"
+                        }
+                     }
+                  }
                },
                "401": {
                   "description": "Not authorized",
@@ -926,6 +939,26 @@
                      "application/json": {
                         "schema": {
                            "$ref": "#/components/schemas/errorUnauthorizedResponse"
+                        }
+                     }
+                  }
+               },
+               "404": {
+                  "description": "Not found",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorNotFoundResponse"
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "Internal Server Error",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorServerResponse"
                         }
                      }
                   }
@@ -972,6 +1005,26 @@
                      "application/json": {
                         "schema": {
                            "$ref": "#/components/schemas/errorUnauthorizedResponse"
+                        }
+                     }
+                  }
+               },
+               "404": {
+                  "description": "Not found",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorNotFoundResponse"
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "Internal Server Error",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorServerResponse"
                         }
                      }
                   }
@@ -1035,8 +1088,14 @@
             ],
             "responses": {
                "200": {
-                  "description": "Card deleted",
-                  "content": {}
+                  "description": "Card successfully deleted",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/deleteCardResponse"
+                        }
+                     }
+                  }
                },
                "401": {
                   "description": "Not authorized",
@@ -1627,6 +1686,51 @@
                   "type": "string",
                   "description": "Message about email sending",
                   "example": "Email sent successfully"
+               }
+            }
+         },
+         "deleteBoardResponse": {
+            "type": "object",
+            "properties": {
+               "id": {
+                  "type": "string",
+                  "description": "Deleted board id",
+                  "example": "65e7228866e43c6075e5d2f5"
+               },
+               "message": {
+                  "type": "string",
+                  "description": "Board successfully deleted.",
+                  "example": "Board with id and its related columns and cards deleted successfully"
+               }
+            }
+         },
+         "deleteColumnResponse": {
+            "type": "object",
+            "properties": {
+               "id": {
+                  "type": "string",
+                  "description": "Deleted column id",
+                  "example": "65e7228866e43c6075e5d2f5"
+               },
+               "message": {
+                  "type": "string",
+                  "description": "Column successfully deleted.",
+                  "example": "Column with id and its related cards deleted successfully."
+               }
+            }
+         },
+         "deleteCardResponse": {
+            "type": "object",
+            "properties": {
+               "id": {
+                  "type": "string",
+                  "description": "Deleted card id",
+                  "example": "65e7228866e43c6075e5d2f5"
+               },
+               "message": {
+                  "type": "string",
+                  "description": "Card successfully deleted.",
+                  "example": "Card with id successfully deleted."
                }
             }
          },
