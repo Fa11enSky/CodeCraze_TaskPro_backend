@@ -875,7 +875,7 @@
                "content": {
                   "application/json": {
                      "schema": {
-                        "$ref": "#/components/schemas/ColumnRequest"
+                        "$ref": "#/components/schemas/UpdateColumnRequest"
                      }
                   }
                }
@@ -886,7 +886,17 @@
                   "content": {
                      "application/json": {
                         "schema": {
-                           "$ref": "#/components/schemas/ColumnResponse"
+                           "$ref": "#/components/schemas/UpdateColumnResponse"
+                        }
+                     }
+                  }
+               },
+               "400": {
+                  "description": "Bad request (invalid request body)",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorBadRequestResponse"
                         }
                      }
                   }
@@ -901,12 +911,32 @@
                      }
                   }
                },
+               "404": {
+                  "description": "Not found",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorNotFoundResponse"
+                        }
+                     }
+                  }
+               },
                "409": {
                   "description": "Title in use",
                   "content": {
                      "application/json": {
                         "schema": {
                            "$ref": "#/components/schemas/errorColumnTitleInUse"
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "Internal Server Error",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorServerResponse"
                         }
                      }
                   }
@@ -1071,6 +1101,26 @@
                      "application/json": {
                         "schema": {
                            "$ref": "#/components/schemas/errorUnauthorizedResponse"
+                        }
+                     }
+                  }
+               },
+               "404": {
+                  "description": "Not found",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorNotFoundResponse"
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "Internal Server Error",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorServerResponse"
                         }
                      }
                   }
@@ -1481,13 +1531,44 @@
             "properties": {
                "id": {
                   "type": "string",
-                  "description": "Board's id",
+                  "description": "Column's id",
                   "example": "6497272b903f686ac6123cad"
                },
                "title": {
                   "type": "string",
-                  "description": "Board's title",
-                  "example": "Board title"
+                  "description": "Column's title",
+                  "example": "Column title"
+               },
+               "columnOwner": {
+                  "type": "string",
+                  "description": "Column's id",
+                  "example": "6496f88960259996ba1250a1"
+               }
+            }
+         },
+         "UpdateColumnRequest": {
+            "type": "object",
+            "required": ["title"],
+            "properties": {
+               "title": {
+                  "type": "string",
+                  "description": "Column's title",
+                  "example": "Column new title"
+               }
+            }
+         },
+         "UpdateColumnResponse": {
+            "type": "object",
+            "properties": {
+               "id": {
+                  "type": "string",
+                  "description": "Column's id",
+                  "example": "6497272b903f686ac6123cad"
+               },
+               "title": {
+                  "type": "string",
+                  "description": "Column's title",
+                  "example": "Column new title"
                },
                "columnOwner": {
                   "type": "string",
