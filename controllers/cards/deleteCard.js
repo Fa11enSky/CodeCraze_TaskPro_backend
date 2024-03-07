@@ -1,14 +1,19 @@
-const { ctrlWrapper } = require("../../helpers");
+const { ctrlWrapper, HttpError } = require("../../helpers");
 const { Card } = require("../../models");
 
 
 const deleteCard = ctrlWrapper(async (req, res) => {
    const { id } = req.params;
 
-await Card.deleteMany({ cardOwner: id });
-const resultCol = await Card.findByIdAndDelete({ _id: id });
+const result = await Card.findByIdAndDelete({ _id: id });
 
-res.json(resultCol);
+if (!result) {
+   throw HttpError(404, `Card with id ${id} not found`);
+}
+res.json({
+   id,
+   message: `Card with id ${id} deleted successfully`,
+});
 });
 
 module.exports = deleteCard;
