@@ -286,7 +286,7 @@
                }
             ],
             "requestBody": {
-               "description": "# Опис параметрів запиту:\n\n**avatar** - string, фото користувача в форматі form-data.\n\n**name** - string, ім'я користувача.\n\n**email** - string, електронна пошта користувача. \n\n**password** - string, пароль користувача. \n\n # Body must have at least one field\n",
+               "description": "# Опис параметрів запиту:\n\n**avatar** - string, фото користувача в форматі form-data.\n\n**name** - string, ім'я користувача.\n\n**email** - string, електронна пошта користувача. \n\n**password** - string, пароль користувача. \n\n # Body must have at least one field\n\n",
                "required": true,
                "content": {
                   "multipart/form-data": {
@@ -422,7 +422,7 @@
             "tags": ["User"],
             "summary": "Send email to support",
             "parameters": [],
-            "description": "**Authorization token must be included**",
+            "description": "**Authorization token must be included** \n\n # Опис параметрів запиту: \n\n**comment*** - string, повідомлення для Служби підтримки \n\n**email*** - string, будь-який валідний email для зворотнього зв'язку\n",
             "security": [
                {
                   "Bearer": []
@@ -446,82 +446,6 @@
                      "application/json": {
                         "schema": {
                            "$ref": "#/components/schemas/HelpMessageResponse"
-                        }
-                     }
-                  }
-               },
-               "400": {
-                  "description": "Bad request (invalid request body)",
-                  "content": {
-                     "application/json": {
-                        "schema": {
-                           "$ref": "#/components/schemas/errorBadRequestResponse"
-                        }
-                     }
-                  }
-               },
-               "401": {
-                  "description": "Not authorized",
-                  "content": {
-                     "application/json": {
-                        "schema": {
-                           "$ref": "#/components/schemas/errorUnauthorizedResponse"
-                        }
-                     }
-                  }
-               },
-               "404": {
-                  "description": "Not found",
-                  "content": {
-                     "application/json": {
-                        "schema": {
-                           "$ref": "#/components/schemas/errorNotFoundResponse"
-                        }
-                     }
-                  }
-               },
-               "500": {
-                  "description": "Internal Server Error",
-                  "content": {
-                     "application/json": {
-                        "schema": {
-                           "$ref": "#/components/schemas/errorServerResponse"
-                        }
-                     }
-                  }
-               }
-            }
-         }
-      },
-      "/api/users/board": {
-         "patch": {
-            "tags": ["User"],
-            "summary": "Save user`s active board",
-            "parameters": [],
-            "description": "**Authorization token must be included**",
-            "security": [
-               {
-                  "Bearer": []
-               }
-            ],
-            "requestBody": {
-               "description": "",
-               "required": true,
-               "content": {
-                  "application/json": {
-                     "schema": {
-                        "$ref": "#/components/schemas/ActiveBoardRequest"
-                     }
-                  }
-               }
-            },
-            "responses": {
-               "200": {
-                  "description": "Ok",
-                  "content": {
-                     "application/json": {
-                        "schema": {
-                           "$ref": "#/components/schemas/ActiveBoardResponse"
                         }
                      }
                   }
@@ -600,6 +524,16 @@
                         }
                      }
                   }
+               },
+               "500": {
+                  "description": "Internal Server Error",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorServerResponse"
+                        }
+                     }
+                  }
                }
             }
          },
@@ -614,7 +548,7 @@
                }
             ],
             "requestBody": {
-               "description": "\n\n # Опис параметрів запиту:\n\n**title** - string, назва дошки, **required**.\n\n**icon** - string, іконка зі списку, defalt -icon-project-. \n\n**background** - null||string, фон картки. \n",
+               "description": "\n\n # Опис параметрів запиту:\n\n**title** - string, назва дошки, **required**.\n\n**icon** - string, іконка зі списку, defalt -icon-project-. \n\n**background** - null||string, фон дошки. \n",
                "required": true,
                "content": {
                   "application/json": {
@@ -656,11 +590,21 @@
                   }
                },
                "409": {
-                  "description": "Email in use",
+                  "description": "Title in use",
                   "content": {
                      "application/json": {
                         "schema": {
                            "$ref": "#/components/schemas/errorBoardTitleInUse"
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "Internal Server Error",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorServerResponse"
                         }
                      }
                   }
@@ -699,6 +643,26 @@
                         }
                      }
                   }
+               },
+               "404": {
+                  "description": "Not found",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorNotFoundResponse"
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "Internal Server Error",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorServerResponse"
+                        }
+                     }
+                  }
                }
             }
          },
@@ -733,12 +697,42 @@
                      }
                   }
                },
+               "400": {
+                  "description": "Bad request (invalid request body)",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorBadRequestResponse"
+                        }
+                     }
+                  }
+               },
                "401": {
                   "description": "Not authorized",
                   "content": {
                      "application/json": {
                         "schema": {
                            "$ref": "#/components/schemas/errorUnauthorizedResponse"
+                        }
+                     }
+                  }
+               },
+               "404": {
+                  "description": "Not found",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorNotFoundResponse"
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "Internal Server Error",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorServerResponse"
                         }
                      }
                   }
@@ -757,6 +751,292 @@
             "responses": {
                "200": {
                   "description": "Board, it's Columns and Column`s cards deleted"
+               },
+               "401": {
+                  "description": "Not authorized",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorUnauthorizedResponse"
+                        }
+                     }
+                  }
+               },
+               "404": {
+                  "description": "Not found",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorNotFoundResponse"
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "Internal Server Error",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorServerResponse"
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "/api/columns/{boardId}": {
+         "post": {
+            "tags": ["Columns"],
+            "summary": "Add column to board",
+            "parameters": [],
+            "description": "Authorization token must be included",
+            "security": [
+               {
+                  "Bearer": []
+               }
+            ],
+            "requestBody": {
+               "description": "",
+               "required": true,
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "$ref": "#/components/schemas/ColumnRequest"
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "200": {
+                  "description": "Ok",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/ColumnResponse"
+                        }
+                     }
+                  }
+               },
+               "400": {
+                  "description": "Bad request (invalid request body)",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorBadRequestResponse"
+                        }
+                     }
+                  }
+               },
+               "401": {
+                  "description": "Not authorized",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorUnauthorizedResponse"
+                        }
+                     }
+                  }
+               },
+               "409": {
+                  "description": "Title in use",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorColumnTitleInUse"
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "/api/columns/{columnId}": {
+         "patch": {
+            "tags": ["Columns"],
+            "summary": "Update column`s fields",
+            "parameters": [],
+            "description": "Authorization token must be included",
+            "security": [
+               {
+                  "Bearer": []
+               }
+            ],
+            "requestBody": {
+               "description": "",
+               "required": true,
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "$ref": "#/components/schemas/ColumnRequest"
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "200": {
+                  "description": "Ok",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/ColumnResponse"
+                        }
+                     }
+                  }
+               },
+               "401": {
+                  "description": "Not authorized",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorUnauthorizedResponse"
+                        }
+                     }
+                  }
+               },
+               "409": {
+                  "description": "Title in use",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorColumnTitleInUse"
+                        }
+                     }
+                  }
+               }
+            }
+         },
+         "delete": {
+            "tags": ["Columns"],
+            "summary": "Remove column",
+            "description": "Authorization token must be included",
+            "security": [
+               {
+                  "Bearer": []
+               }
+            ],
+            "responses": {
+               "200": {
+                  "description": "Column and it's cards are deleted",
+                  "content": {}
+               },
+               "401": {
+                  "description": "Not authorized",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorUnauthorizedResponse"
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "/api/cards/{columnId}": {
+         "post": {
+            "tags": ["Cards"],
+            "summary": "Add card to column",
+            "parameters": [],
+            "description": "Authorization token must be included",
+            "security": [
+               {
+                  "Bearer": []
+               }
+            ],
+            "requestBody": {
+               "description": "",
+               "required": true,
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "$ref": "#/components/schemas/CardRequest"
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "200": {
+                  "description": "Ok",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/CardResponse"
+                        }
+                     }
+                  }
+               },
+               "401": {
+                  "description": "Not authorized",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorUnauthorizedResponse"
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "/api/cards/{cardId}": {
+         "patch": {
+            "tags": ["Cards"],
+            "summary": "Update card`s fields",
+            "parameters": [],
+            "description": "Authorization token must be included",
+            "security": [
+               {
+                  "Bearer": []
+               }
+            ],
+            "requestBody": {
+               "description": "",
+               "required": true,
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "$ref": "#/components/schemas/CardUpdateRequest"
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "200": {
+                  "description": "Ok",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/CardResponse"
+                        }
+                     }
+                  }
+               },
+               "401": {
+                  "description": "Not authorized",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorUnauthorizedResponse"
+                        }
+                     }
+                  }
+               }
+            }
+         },
+         "delete": {
+            "tags": ["Cards"],
+            "summary": "Remove card",
+            "description": "Authorization token must be included",
+            "security": [
+               {
+                  "Bearer": []
+               }
+            ],
+            "responses": {
+               "200": {
+                  "description": "Card deleted",
+                  "content": {}
                },
                "401": {
                   "description": "Not authorized",
@@ -925,7 +1205,13 @@
                   "description": "User's avatar",
                   "example": "https://res.cloudinary.com/dpwloumk0/image/upload/v1709515495/avatars/user_avatar-65e522af443ee9ab3bfa8384.jpg"
                }
-            }
+            },
+            "anyOf": [
+               { "required": ["name"] },
+               { "required": ["email"] },
+               { "required": ["password"] },
+               { "required": ["avatar"] }
+            ]
          },
          "UpdateUserResponse": {
             "type": "object",
@@ -1071,6 +1357,16 @@
                "icon": {
                   "type": "string",
                   "description": "Board's icon",
+                  "enum": [
+                     "icon-project",
+                     "icon-star",
+                     "icon-loading",
+                     "icon-puzzle",
+                     "icon-container",
+                     "icon-lightning",
+                     "icon-colors",
+                     "icon-hexagon"
+                  ],
                   "example": "icon-project"
                },
                "background": {
@@ -1134,9 +1430,9 @@
                   "description": "Board's title",
                   "example": "Board title"
                },
-               "owner": {
+               "columnOwner": {
                   "type": "string",
-                  "description": "Owner`s id",
+                  "description": "Column's id",
                   "example": "6496f88960259996ba1250a1"
                }
             }
@@ -1169,7 +1465,6 @@
          },
          "CardUpdateRequest": {
             "type": "object",
-            "required": ["title"],
             "properties": {
                "title": {
                   "type": "string",
@@ -1196,7 +1491,14 @@
                   "description": "Card's new owner. Column ID",
                   "example": "6496f88960259996ba1250a1"
                }
-            }
+            },
+            "anyOf": [
+               { "required": ["title"] },
+               { "required": ["description"] },
+               { "required": ["label"] },
+               { "required": ["deadline"] },
+               { "required": ["cardOwner"] }
+            ]
          },
 
          "CardResponse": {
@@ -1354,7 +1656,17 @@
                "message": {
                   "type": "string",
                   "description": "Error message",
-                  "example": "Board \"Board title\" already exists"
+                  "example": "Board  \"board's title\" already exists"
+               }
+            }
+         },
+         "errorColumnTitleInUse": {
+            "type": "object",
+            "properties": {
+               "message": {
+                  "type": "string",
+                  "description": "Error message",
+                  "example": "Column \"column's title\" already exists"
                }
             }
          },
