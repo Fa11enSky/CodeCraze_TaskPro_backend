@@ -18,4 +18,19 @@ const addBoardSchema = Joi.object({
    owner: Joi.string(),
 });
 
-module.exports = { addBoardSchema };
+const updateBoardSchema = Joi.object({
+   title: Joi.string(),
+   icon: Joi.string().valid(
+      "icon-project",
+      "icon-star",
+      "icon-loading",
+      "icon-puzzle",
+      "icon-container",
+      "icon-lightning",
+      "icon-colors",
+      "icon-hexagon"
+   ),
+   background: Joi.string(),
+});
+
+module.exports = { addBoardSchema, updateBoardSchema };
