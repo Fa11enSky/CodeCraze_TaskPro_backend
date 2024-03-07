@@ -1,20 +1,20 @@
-const { User } = require("../../models");
-const { HttpError, ctrlWrapper } = require("../../helpers");
+// const { User } = require("../../models");
+// const { HttpError, ctrlWrapper } = require("../../helpers");
 
-const updateActiveBoard = ctrlWrapper(async (req, res) => {
-   const { _id } = req.user;
-   const { activeBoard } = req.body;
+// const updateActiveBoard = ctrlWrapper(async (req, res) => {
+//    const { _id } = req.user;
+//    const { activeBoard } = req.body;
 
-   const result = await User.findOneAndUpdate(_id, { activeBoard });
+//    const result = await User.findOneAndUpdate(_id, { activeBoard });
 
-   if (!result) {
-      throw HttpError(404, "User not found");
-   }
+//    if (!result) {
+//       throw HttpError(404, "User not found");
+//    }
 
-   res.json({
-      activeBoard,
-      message: "Active board set to user.",
-   });
-});
+//    res.json({
+//       activeBoard,
+//       message: "Active board set to user.",
+//    });
+// });
 
-module.exports = updateActiveBoard;
+// module.exports = updateActiveBoard;

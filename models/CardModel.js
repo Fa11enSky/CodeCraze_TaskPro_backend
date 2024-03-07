@@ -18,7 +18,7 @@ const cardSchema = new Schema(
       },
       deadline: {
          type: Date,
-         default: Date.now(),
+         required: [true, "Deadline is required"],
       },
       cardOwner: {
          type: Schema.Types.ObjectId,

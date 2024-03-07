@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
-const { Board } = require("../../models");
+const { Board, User } = require("../../models");
 
 const { HttpError, ctrlWrapper } = require("../../helpers");
 
 const getBoardById = ctrlWrapper(async (req, res) => {
    const { id } = req.params;
+   const { _id } = req.user;
 
    const board = await Board.aggregate([
       { $match: { _id: new mongoose.Types.ObjectId(id) } }, // Знаходимо дошку за її ID
@@ -46,6 +47,11 @@ const getBoardById = ctrlWrapper(async (req, res) => {
          cards: col.columns.cards,
       })),
    };
+
+   // Оновлюємо поле activeBoard користувача ID з параметрів запиту
+   await User.findByIdAndUpdate(_id, {
+      activeBoard: id,
+   });
 
    res.json(formattedBoard);
 });
