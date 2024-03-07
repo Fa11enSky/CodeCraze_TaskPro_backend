@@ -30,6 +30,7 @@ const deleteBoard = ctrlWrapper(async (req, res) => {
    });
 
    res.json({
+      id,
       message: `Board with id ${id} and its related columns and cards deleted successfully`,
    });
 });
