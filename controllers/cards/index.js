@@ -1,3 +1,4 @@
 const addCard = require("./addCard");
+const deleteCard = require("./deleteCard");
 
-module.exports = { addCard };
+module.exports = { addCard, deleteCard };
