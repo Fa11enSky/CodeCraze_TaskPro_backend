@@ -7,7 +7,7 @@ const addColumn = ctrlWrapper(async (req, res) => {
 
    console.log(req.user);
 
-   const isColumnExists = await Column.findOne({ title });
+   const isColumnExists = await Column.findOne({columnOwner, title });
 
    if (isColumnExists) {
       throw HttpError(409, `Column "${title}" already exist`);
