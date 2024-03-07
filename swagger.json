@@ -553,7 +553,7 @@
                "content": {
                   "application/json": {
                      "schema": {
-                        "$ref": "#/components/schemas/BoardRequest"
+                        "$ref": "#/components/schemas/AddBoardRequest"
                      }
                   }
                }
@@ -677,11 +677,11 @@
                }
             ],
             "requestBody": {
-               "description": "",
+               "description": "\n\n # Body must have at least one field\n\n",
                "content": {
                   "application/json": {
                      "schema": {
-                        "$ref": "#/components/schemas/BoardRequest"
+                        "$ref": "#/components/schemas/UpdateBoardRequest"
                      }
                   }
                }
@@ -841,6 +841,16 @@
                      "application/json": {
                         "schema": {
                            "$ref": "#/components/schemas/errorUnauthorizedResponse"
+                        }
+                     }
+                  }
+               },
+               "404": {
+                  "description": "Not found",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorNotFoundResponse"
                         }
                      }
                   }
@@ -1025,6 +1035,16 @@
                      "application/json": {
                         "schema": {
                            "$ref": "#/components/schemas/CardResponse"
+                        }
+                     }
+                  }
+               },
+               "400": {
+                  "description": "Bad request (invalid request body)",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorBadRequestResponse"
                         }
                      }
                   }
@@ -1395,32 +1415,6 @@
                }
             }
          },
-         "ActiveBoardRequest": {
-            "type": "object",
-            "required": ["activeBoard"],
-            "properties": {
-               "activeBoard": {
-                  "type": "string",
-                  "description": "User's active board ID",
-                  "example": "6497272b903f686ac6123cad"
-               }
-            }
-         },
-         "ActiveBoardResponse": {
-            "type": "object",
-            "properties": {
-               "activeBoard": {
-                  "type": "string",
-                  "description": "User's active board ID",
-                  "example": "6497272b903f686ac6123cad"
-               },
-               "message": {
-                  "type": "string",
-                  "description": "message",
-                  "example": "Active board set to user."
-               }
-            }
-         },
          "GetBoardsResponse": {
             "type": "array",
             "items": {
@@ -1454,7 +1448,7 @@
                }
             }
          },
-         "BoardRequest": {
+         "AddBoardRequest": {
             "type": "object",
             "required": ["title"],
             "properties": {
@@ -1512,6 +1506,36 @@
                   "type": "string",
                   "description": "Owner`s id",
                   "example": "65e7228866e43c6075e5d2f5"
+               }
+            }
+         },
+         "UpdateBoardRequest": {
+            "type": "object",
+            "properties": {
+               "title": {
+                  "type": "string",
+                  "description": "Board's title",
+                  "example": "Board title"
+               },
+               "icon": {
+                  "type": "string",
+                  "description": "Board's icon",
+                  "enum": [
+                     "icon-project",
+                     "icon-star",
+                     "icon-loading",
+                     "icon-puzzle",
+                     "icon-container",
+                     "icon-lightning",
+                     "icon-colors",
+                     "icon-hexagon"
+                  ],
+                  "example": "icon-project"
+               },
+               "background": {
+                  "type": "string",
+                  "description": "Board's background",
+                  "example": "background"
                }
             }
          },
@@ -1594,12 +1618,14 @@
                "label": {
                   "type": "string",
                   "description": "Card's label",
+                  "enum": ["without", "low", "medium", "high"],
                   "example": "without"
                },
                "deadline": {
                   "type": "string",
+                  "format": "date-time",
                   "description": "Card's deadline",
-                  "example": "time deadline"
+                  "example": "YYYY/MM/DD"
                }
             }
          },
@@ -1619,12 +1645,14 @@
                "label": {
                   "type": "string",
                   "description": "Card's label",
-                  "example": "without"
+                  "enum": ["without", "low", "medium", "high"],
+                  "example": "high"
                },
                "deadline": {
                   "type": "string",
+                  "format": "date-time",
                   "description": "Card's deadline",
-                  "example": "time deadline"
+                  "example": "YYYY/MM/DD"
                },
                "cardOwner": {
                   "type": "string",
@@ -1666,8 +1694,8 @@
                },
                "deadline": {
                   "type": "string",
-                  "description": "Card's deadline",
-                  "example": "time deadline"
+                  "description": "Дедлайн картки. Якщо відсутній в запиті, автоматично встановлюється на +1 день від поточного.",
+                  "example": "DD.MM.YYYY, 00:00:00"
                },
                "cardOwner": {
                   "type": "string",
