@@ -11,8 +11,17 @@ const moveCard = ctrlWrapper(async (req, res) => {
       throw HttpError(404, `Card ${id} not found`);
    }
 
-   if (typeof newColumnId === "string" && newColumnId.length !== 24) {
+   //Перевіряємо валідність ID стовпчика, до якого переносимо картку.
+   if (typeof newColumnId !== "string" && newColumnId.length !== 24) {
       throw HttpError(400, "Invalid new column id");
+   }
+
+   // Перевіряємо, щоб ID нового стовпчика не дорівнював ID стовпчику поточної карти
+   if (newColumnId === card.cardOwner.toString()) {
+      throw HttpError(
+         400,
+         "New column id must be different from the current card's column"
+      );
    }
 
    // Перевіряємо, чи належить новий стовпчик до тієї самої дошки
