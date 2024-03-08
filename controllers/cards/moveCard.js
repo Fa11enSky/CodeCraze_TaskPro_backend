@@ -11,7 +11,7 @@ const moveCard = ctrlWrapper(async (req, res) => {
       throw HttpError(404, `Card ${id} not found`);
    }
 
-   if (newColumnId.length !== 24) {
+   if (typeof newColumnId === "string" && newColumnId.length !== 24) {
       throw HttpError(400, "Invalid new column id");
    }
 
