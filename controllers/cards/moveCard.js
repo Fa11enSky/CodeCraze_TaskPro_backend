@@ -7,14 +7,15 @@ const moveCard = ctrlWrapper(async (req, res) => {
 
    // Перевіряємо, чи існує карта з вказаним ідентифікатором
    const card = await Card.findById(id);
-
    if (!card) {
       throw HttpError(404, `Card ${id} not found`);
    }
 
    // Перевіряємо, чи належить новий стовпчик до тієї самої дошки
-   const column = await Column.findById(card.cardOwner);
-   const newColumn = await Column.findById(newColumnId);
+   const [column, newColumn] = await Promise.all([
+      Column.findById(card.cardOwner),
+      Column.findById(newColumnId),
+   ]);
 
    if (!newColumn || !newColumn.columnOwner.equals(column.columnOwner)) {
       throw HttpError(
