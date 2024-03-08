@@ -7,7 +7,6 @@ const { addCardSchema, updateCardSchema } = require("./cardSchemas");
 const {
    addColumnSchema,
    updateColumnSchema,
-   moveCardSchema,
 } = require("./columnSchema");
 
 module.exports = {
@@ -22,5 +21,4 @@ module.exports = {
    updateColumnSchema,
    addCardSchema,
    updateCardSchema,
-   moveCardSchema,
 };
