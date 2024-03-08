@@ -5,14 +5,20 @@ const {
    deleteColumn,
    updateColumn,
 } = require("../controllers/columns");
-const { protect, validateBody } = require("../middlewares");
+const { protect, validateBody, validateId } = require("../middlewares");
 const { addColumnSchema, updateColumnSchema } = require("../schemas");
 
 const columnsRouter = express.Router();
 
 columnsRouter
-   .post("/:id", protect, validateBody(addColumnSchema), addColumn)
-   .patch("/:id", protect, validateBody(updateColumnSchema), updateColumn)
-   .delete("/:id", protect, deleteColumn);
+   .post("/:id", protect, validateId, validateBody(addColumnSchema), addColumn)
+   .patch(
+      "/:id",
+      protect,
+      validateId,
+      validateBody(updateColumnSchema),
+      updateColumn
+   )
+   .delete("/:id", protect, validateId, deleteColumn);
 
 module.exports = columnsRouter;
