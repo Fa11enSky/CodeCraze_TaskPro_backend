@@ -15,7 +15,10 @@ const updateCardSchema = Joi.object({
    description: Joi.string(),
    label: Joi.string().valid("without", "low", "medium", "high"),
    deadline: Joi.date().greater("now"),
-   cardOwner: Joi.string(),
 });
 
-module.exports = { addCardSchema, updateCardSchema };
+const moveCardSchema = Joi.object({
+   newColumnId: Joi.string().required(),
+});
+
+module.exports = { addCardSchema, updateCardSchema, moveCardSchema };

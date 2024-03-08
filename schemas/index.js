@@ -4,7 +4,11 @@ const { updateUserSchema, themeSchema } = require("./userSchemas");
 const { addBoardSchema, updateBoardSchema } = require("./boardSchemas");
 const { addCardSchema, updateCardSchema } = require("./cardSchemas");
 
-const { addColumnSchema, updateColumnSchema } = require("./columnSchema");
+const {
+   addColumnSchema,
+   updateColumnSchema,
+   moveCardSchema,
+} = require("./columnSchema");
 
 module.exports = {
    registerSchema,
@@ -18,4 +22,5 @@ module.exports = {
    updateColumnSchema,
    addCardSchema,
    updateCardSchema,
+   moveCardSchema,
 };
