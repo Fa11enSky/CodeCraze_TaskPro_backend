@@ -11,6 +11,10 @@ const moveCard = ctrlWrapper(async (req, res) => {
       throw HttpError(404, `Card ${id} not found`);
    }
 
+   if (newColumnId.length !== 24) {
+      throw HttpError(400, "Invalid new column id");
+   }
+
    // Перевіряємо, чи належить новий стовпчик до тієї самої дошки
    const [column, newColumn] = await Promise.all([
       Column.findById(card.cardOwner),

@@ -12,7 +12,7 @@ const deleteColumn = ctrlWrapper(async (req, res) => {
    console.log(isColumnExists);
 
    await Card.deleteMany({ cardOwner: id });
-   await Column.findByIdAndDelete({ _id: id });
+   await Column.findByIdAndDelete(id);
 
    res.json({
       id,
