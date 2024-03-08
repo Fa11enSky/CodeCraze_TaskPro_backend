@@ -1,18 +1,23 @@
-const { Column } = require("../../models");
+const { Column, Board } = require("../../models");
 const { HttpError, ctrlWrapper } = require("../../helpers");
 
 const addColumn = ctrlWrapper(async (req, res) => {
-   const { id: columnOwner } = req.params;
-   const { title } = req.body;
+  const { id: columnOwner } = req.params;
+  const { title } = req.body;
 
-   const isColumnExists = await Column.findOne({ columnOwner, title });
+  const isBoardExists = await Board.findOne({ _id: columnOwner });
+  if (!isBoardExists) {
+    throw HttpError(404, `Board not found`);
+  }
 
-   if (isColumnExists) {
-      throw HttpError(409, `Column "${title}" already exist`);
-   }
+  const isColumnExists = await Column.findOne({ columnOwner, title });
 
-   const result = await Column.create({ ...req.body, columnOwner });
-   res.status(201).json(result);
+  if (isColumnExists) {
+    throw HttpError(409, `Column "${title}" already exist`);
+  }
+
+  const result = await Column.create({ ...req.body, columnOwner });
+  res.status(201).json(result);
 });
 
 module.exports = addColumn;
