@@ -1,10 +1,6 @@
 const { registerSchema, loginSchema } = require("./authSchemas");
 const helpSchema = require("./helpSchema");
-const {
-   updateUserSchema,
-   themeSchema,
-   //  updateActiveBoardSchema,
-} = require("./userSchemas");
+const { updateUserSchema, themeSchema } = require("./userSchemas");
 const { addBoardSchema, updateBoardSchema } = require("./boardSchemas");
 const { addCardSchema, updateCardSchema } = require("./cardSchemas");
 
@@ -16,7 +12,6 @@ module.exports = {
    updateUserSchema,
    helpSchema,
    themeSchema,
-   //  updateActiveBoardSchema,
    addBoardSchema,
    updateBoardSchema,
    addColumnSchema,
