@@ -6,7 +6,6 @@ const addCardSchema = Joi.object({
       .messages({ "any.required": "missing required Card title" }),
    description: Joi.string(),
    label: Joi.string().valid("without", "low", "medium", "high"),
-   //!---------не забути про DEADLINE
    deadline: Joi.date().greater("now"),
    cardOwner: Joi.string(),
 });
@@ -15,7 +14,7 @@ const updateCardSchema = Joi.object({
    title: Joi.string(),
    description: Joi.string(),
    label: Joi.string().valid("without", "low", "medium", "high"),
-   deadline: Joi.date(),
+   deadline: Joi.date().greater("now"),
    cardOwner: Joi.string(),
 });
 

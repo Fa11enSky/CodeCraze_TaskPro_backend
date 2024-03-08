@@ -1,15 +1,21 @@
-const { Card } = require("../../models");
-const { ctrlWrapper } = require("../../helpers");
+const { Card, Column } = require("../../models");
+const { ctrlWrapper, HttpError } = require("../../helpers");
 
 const addCard = ctrlWrapper(async (req, res) => {
-   const { id: cardOwner } = req.params;
+   const { id } = req.params;
 
+   // Перевірка наявності колонки з вказаним ідентифікатором
+   const column = await Column.findById(id);
+   if (!column) {
+      throw HttpError(404, "Column  not found");
+   }
+
+   // Створення картки та додавання до колонки
    const result = await Card.create({
       ...req.body,
-      cardOwner,
+      cardOwner: id,
    });
 
-   console.log(result.deadline.toLocaleString());
    const deadline = result.deadline.toLocaleString();
 
    //конвертується для адекватного відображення дедлайну

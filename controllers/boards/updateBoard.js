@@ -13,6 +13,12 @@ const updateBoard = ctrlWrapper(async (req, res) => {
       throw HttpError(404, "Not Found");
    }
 
+   // Перевіряємо, чи існує доска з такою ж назвою для цього користувача
+   const isBoardExists = await Board.findOne({ owner, title });
+   if (isBoardExists) {
+      throw HttpError(409, `Board "${title}" already exists`);
+   }
+
    // Перевіряємо, чи є дані для оновлення
    if (!title && !icon && !background) {
       throw HttpError(400, "No data to update");

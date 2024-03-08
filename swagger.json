@@ -553,7 +553,7 @@
                "content": {
                   "application/json": {
                      "schema": {
-                        "$ref": "#/components/schemas/BoardRequest"
+                        "$ref": "#/components/schemas/AddBoardRequest"
                      }
                   }
                }
@@ -677,11 +677,11 @@
                }
             ],
             "requestBody": {
-               "description": "",
+               "description": "\n\n # Body must have at least one field\n\n",
                "content": {
                   "application/json": {
                      "schema": {
-                        "$ref": "#/components/schemas/BoardRequest"
+                        "$ref": "#/components/schemas/UpdateBoardRequest"
                      }
                   }
                }
@@ -750,7 +750,14 @@
             ],
             "responses": {
                "200": {
-                  "description": "Board, it's Columns and Column`s cards deleted"
+                  "description": "Board, it's Columns and Column`s cards deleted",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/deleteBoardResponse"
+                        }
+                     }
+                  }
                },
                "401": {
                   "description": "Not authorized",
@@ -838,6 +845,16 @@
                      }
                   }
                },
+               "404": {
+                  "description": "Not found",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorNotFoundResponse"
+                        }
+                     }
+                  }
+               },
                "409": {
                   "description": "Title in use",
                   "content": {
@@ -868,7 +885,7 @@
                "content": {
                   "application/json": {
                      "schema": {
-                        "$ref": "#/components/schemas/ColumnRequest"
+                        "$ref": "#/components/schemas/UpdateColumnRequest"
                      }
                   }
                }
@@ -879,7 +896,17 @@
                   "content": {
                      "application/json": {
                         "schema": {
-                           "$ref": "#/components/schemas/ColumnResponse"
+                           "$ref": "#/components/schemas/UpdateColumnResponse"
+                        }
+                     }
+                  }
+               },
+               "400": {
+                  "description": "Bad request (invalid request body)",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorBadRequestResponse"
                         }
                      }
                   }
@@ -894,12 +921,32 @@
                      }
                   }
                },
+               "404": {
+                  "description": "Not found",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorNotFoundResponse"
+                        }
+                     }
+                  }
+               },
                "409": {
                   "description": "Title in use",
                   "content": {
                      "application/json": {
                         "schema": {
                            "$ref": "#/components/schemas/errorColumnTitleInUse"
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "Internal Server Error",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorServerResponse"
                         }
                      }
                   }
@@ -918,7 +965,13 @@
             "responses": {
                "200": {
                   "description": "Column and it's cards are deleted",
-                  "content": {}
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/deleteColumnResponse"
+                        }
+                     }
+                  }
                },
                "401": {
                   "description": "Not authorized",
@@ -926,6 +979,26 @@
                      "application/json": {
                         "schema": {
                            "$ref": "#/components/schemas/errorUnauthorizedResponse"
+                        }
+                     }
+                  }
+               },
+               "404": {
+                  "description": "Not found",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorNotFoundResponse"
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "Internal Server Error",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorServerResponse"
                         }
                      }
                   }
@@ -938,14 +1011,14 @@
             "tags": ["Cards"],
             "summary": "Add card to column",
             "parameters": [],
-            "description": "Authorization token must be included",
+            "description": "**Authorization token must be included** \n\n columnId - ID стовбчика, до якого додається картка",
             "security": [
                {
                   "Bearer": []
                }
             ],
             "requestBody": {
-               "description": "",
+               "description": "# Опис параметрів запиту:\n\n**title** - string, назва картки.\n\n**description** - string, опис картки.\n\n**label** - string, пріорітетність. Можливі значення without | low | medium | high. \n\n**deadline** - string(date-time), дедлайн картки. По замовчанню +1 день від поточної дати. Не допустима минула дата \n\n ",
                "required": true,
                "content": {
                   "application/json": {
@@ -966,12 +1039,42 @@
                      }
                   }
                },
+               "400": {
+                  "description": "Bad request (invalid request body)",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorBadRequestResponse"
+                        }
+                     }
+                  }
+               },
                "401": {
                   "description": "Not authorized",
                   "content": {
                      "application/json": {
                         "schema": {
                            "$ref": "#/components/schemas/errorUnauthorizedResponse"
+                        }
+                     }
+                  }
+               },
+               "404": {
+                  "description": "Not found",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorNotFoundResponse"
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "Internal Server Error",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorServerResponse"
                         }
                      }
                   }
@@ -984,14 +1087,14 @@
             "tags": ["Cards"],
             "summary": "Update card`s fields",
             "parameters": [],
-            "description": "Authorization token must be included",
+            "description": "**Authorization token must be included**",
             "security": [
                {
                   "Bearer": []
                }
             ],
             "requestBody": {
-               "description": "",
+               "description": "# Опис параметрів запиту:\n\n**title** - string, назва картки.\n\n**description** - string, опис картки.\n\n**label** - string, пріорітетність. Можливі значення without | low | medium | high. \n\n**deadline** - string(date-time), дедлайн картки. . По замовчанню +1 день від поточної дати. Не допустима минула дата\n\n # Body must have at least one field\n\n",
                "required": true,
                "content": {
                   "application/json": {
@@ -1021,13 +1124,33 @@
                         }
                      }
                   }
+               },
+               "404": {
+                  "description": "Not found",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorNotFoundResponse"
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "Internal Server Error",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorServerResponse"
+                        }
+                     }
+                  }
                }
             }
          },
          "delete": {
             "tags": ["Cards"],
             "summary": "Remove card",
-            "description": "Authorization token must be included",
+            "description": "**Authorization token must be included**",
             "security": [
                {
                   "Bearer": []
@@ -1035,8 +1158,14 @@
             ],
             "responses": {
                "200": {
-                  "description": "Card deleted",
-                  "content": {}
+                  "description": "Card successfully deleted",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/deleteCardResponse"
+                        }
+                     }
+                  }
                },
                "401": {
                   "description": "Not authorized",
@@ -1044,6 +1173,92 @@
                      "application/json": {
                         "schema": {
                            "$ref": "#/components/schemas/errorUnauthorizedResponse"
+                        }
+                     }
+                  }
+               },
+               "404": {
+                  "description": "Not found",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorNotFoundResponse"
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "Internal Server Error",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorServerResponse"
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "/api/cards/move/{cardId}": {
+         "patch": {
+            "tags": ["Cards"],
+            "summary": "Update cardOwner - moving Card to other Column",
+            "parameters": [],
+            "description": "**Authorization token must be included**",
+            "security": [
+               {
+                  "Bearer": []
+               }
+            ],
+            "requestBody": {
+               "description": "# Опис параметрів запиту:\n\n**columnId** - string, ID нового стовбчика, куди переміщується картка.",
+               "required": true,
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "$ref": "#/components/schemas/CardMoveRequest"
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "200": {
+                  "description": "Ok",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/CardResponse"
+                        }
+                     }
+                  }
+               },
+               "401": {
+                  "description": "Not authorized",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorUnauthorizedResponse"
+                        }
+                     }
+                  }
+               },
+               "404": {
+                  "description": "Not found",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorNotFoundResponse"
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "Internal Server Error",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorServerResponse"
                         }
                      }
                   }
@@ -1205,13 +1420,7 @@
                   "description": "User's avatar",
                   "example": "https://res.cloudinary.com/dpwloumk0/image/upload/v1709515495/avatars/user_avatar-65e522af443ee9ab3bfa8384.jpg"
                }
-            },
-            "anyOf": [
-               { "required": ["name"] },
-               { "required": ["email"] },
-               { "required": ["password"] },
-               { "required": ["avatar"] }
-            ]
+            }
          },
          "UpdateUserResponse": {
             "type": "object",
@@ -1286,32 +1495,6 @@
                }
             }
          },
-         "ActiveBoardRequest": {
-            "type": "object",
-            "required": ["activeBoard"],
-            "properties": {
-               "activeBoard": {
-                  "type": "string",
-                  "description": "User's active board ID",
-                  "example": "6497272b903f686ac6123cad"
-               }
-            }
-         },
-         "ActiveBoardResponse": {
-            "type": "object",
-            "properties": {
-               "activeBoard": {
-                  "type": "string",
-                  "description": "User's active board ID",
-                  "example": "6497272b903f686ac6123cad"
-               },
-               "message": {
-                  "type": "string",
-                  "description": "message",
-                  "example": "Active board set to user."
-               }
-            }
-         },
          "GetBoardsResponse": {
             "type": "array",
             "items": {
@@ -1345,7 +1528,7 @@
                }
             }
          },
-         "BoardRequest": {
+         "AddBoardRequest": {
             "type": "object",
             "required": ["title"],
             "properties": {
@@ -1406,6 +1589,36 @@
                }
             }
          },
+         "UpdateBoardRequest": {
+            "type": "object",
+            "properties": {
+               "title": {
+                  "type": "string",
+                  "description": "Board's title",
+                  "example": "Board title"
+               },
+               "icon": {
+                  "type": "string",
+                  "description": "Board's icon",
+                  "enum": [
+                     "icon-project",
+                     "icon-star",
+                     "icon-loading",
+                     "icon-puzzle",
+                     "icon-container",
+                     "icon-lightning",
+                     "icon-colors",
+                     "icon-hexagon"
+                  ],
+                  "example": "icon-project"
+               },
+               "background": {
+                  "type": "string",
+                  "description": "Board's background",
+                  "example": "background"
+               }
+            }
+         },
          "ColumnRequest": {
             "type": "object",
             "required": ["title"],
@@ -1422,13 +1635,44 @@
             "properties": {
                "id": {
                   "type": "string",
-                  "description": "Board's id",
+                  "description": "Column's id",
                   "example": "6497272b903f686ac6123cad"
                },
                "title": {
                   "type": "string",
-                  "description": "Board's title",
-                  "example": "Board title"
+                  "description": "Column's title",
+                  "example": "Column title"
+               },
+               "columnOwner": {
+                  "type": "string",
+                  "description": "Column's id",
+                  "example": "6496f88960259996ba1250a1"
+               }
+            }
+         },
+         "UpdateColumnRequest": {
+            "type": "object",
+            "required": ["title"],
+            "properties": {
+               "title": {
+                  "type": "string",
+                  "description": "Column's title",
+                  "example": "Column new title"
+               }
+            }
+         },
+         "UpdateColumnResponse": {
+            "type": "object",
+            "properties": {
+               "id": {
+                  "type": "string",
+                  "description": "Column's id",
+                  "example": "6497272b903f686ac6123cad"
+               },
+               "title": {
+                  "type": "string",
+                  "description": "Column's title",
+                  "example": "Column new title"
                },
                "columnOwner": {
                   "type": "string",
@@ -1454,12 +1698,14 @@
                "label": {
                   "type": "string",
                   "description": "Card's label",
+                  "enum": ["without", "low", "medium", "high"],
                   "example": "without"
                },
                "deadline": {
                   "type": "string",
+                  "format": "date-time",
                   "description": "Card's deadline",
-                  "example": "time deadline"
+                  "example": "YYYY/MM/DD"
                }
             }
          },
@@ -1479,28 +1725,17 @@
                "label": {
                   "type": "string",
                   "description": "Card's label",
-                  "example": "without"
+                  "enum": ["without", "low", "medium", "high"],
+                  "example": "high"
                },
                "deadline": {
                   "type": "string",
+                  "format": "date-time",
                   "description": "Card's deadline",
-                  "example": "time deadline"
-               },
-               "cardOwner": {
-                  "type": "string",
-                  "description": "Card's new owner. Column ID",
-                  "example": "6496f88960259996ba1250a1"
+                  "example": "YYYY/MM/DD"
                }
-            },
-            "anyOf": [
-               { "required": ["title"] },
-               { "required": ["description"] },
-               { "required": ["label"] },
-               { "required": ["deadline"] },
-               { "required": ["cardOwner"] }
-            ]
+            }
          },
-
          "CardResponse": {
             "type": "object",
             "properties": {
@@ -1526,12 +1761,23 @@
                },
                "deadline": {
                   "type": "string",
-                  "description": "Card's deadline",
-                  "example": "time deadline"
+                  "description": "Дедлайн картки. Якщо відсутній в запиті, автоматично встановлюється на +1 день від поточного.",
+                  "example": "DD.MM.YYYY, 00:00:00"
                },
                "cardOwner": {
                   "type": "string",
                   "description": "Owner`s id",
+                  "example": "6496f88960259996ba1250a1"
+               }
+            }
+         },
+         "CardMoveRequest": {
+            "type": "object",
+            "required": ["columnId"],
+            "properties": {
+               "columnId": {
+                  "type": "string",
+                  "description": "New Column's ID",
                   "example": "6496f88960259996ba1250a1"
                }
             }
@@ -1627,6 +1873,51 @@
                   "type": "string",
                   "description": "Message about email sending",
                   "example": "Email sent successfully"
+               }
+            }
+         },
+         "deleteBoardResponse": {
+            "type": "object",
+            "properties": {
+               "id": {
+                  "type": "string",
+                  "description": "Deleted board id",
+                  "example": "65e7228866e43c6075e5d2f5"
+               },
+               "message": {
+                  "type": "string",
+                  "description": "Board successfully deleted.",
+                  "example": "Board with id and its related columns and cards deleted successfully"
+               }
+            }
+         },
+         "deleteColumnResponse": {
+            "type": "object",
+            "properties": {
+               "id": {
+                  "type": "string",
+                  "description": "Deleted column id",
+                  "example": "65e7228866e43c6075e5d2f5"
+               },
+               "message": {
+                  "type": "string",
+                  "description": "Column successfully deleted.",
+                  "example": "Column with id and its related cards deleted successfully."
+               }
+            }
+         },
+         "deleteCardResponse": {
+            "type": "object",
+            "properties": {
+               "id": {
+                  "type": "string",
+                  "description": "Deleted card id",
+                  "example": "65e7228866e43c6075e5d2f5"
+               },
+               "message": {
+                  "type": "string",
+                  "description": "Card successfully deleted.",
+                  "example": "Card with id successfully deleted."
                }
             }
          },
