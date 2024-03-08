@@ -2,21 +2,26 @@ const { ctrlWrapper, HttpError } = require("../../helpers");
 const { Column } = require("../../models");
 
 const updateColumn = ctrlWrapper(async (req, res) => {
-    const { id: columnOwner  } = req.params;
-    const { title } = req.body;
-    
-    const isColumnExists = await Column.findOne({columnOwner , title });
+   const { id } = req.params;
+   const { title } = req.body;
 
-  if (isColumnExists) {
-    throw HttpError(409, `Column "${title}" already exist`);
-    }
-    
-    const result = await Column.findOneAndUpdate({ _id: id }, { title }, { new: true });
-    
-   res.json({
-    id,
-    message: `Column with id ${id} updated successfully`
-  });
+   // Перевірка існування стовпчика з вказаним ідентифікатором
+   const column = await Column.findById(id);
+   if (!column) {
+      throw HttpError(404, "Column not found");
+   }
+
+   const columnOwner = column.columnOwner;
+   const isColumnExists = await Column.findOne({ columnOwner, title });
+   if (isColumnExists) {
+      throw HttpError(409, `Column "${title}" already exists`);
+   }
+
+   const result = await Column.findOneAndUpdate({ _id: id }, req.body, {
+      new: true,
+   });
+
+   res.json(result);
 });
 
 module.exports = updateColumn;
