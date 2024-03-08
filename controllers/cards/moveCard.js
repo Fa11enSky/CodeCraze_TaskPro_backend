@@ -5,15 +5,15 @@ const moveCard = ctrlWrapper(async (req, res) => {
    const { id } = req.params;
    const { newColumnId } = req.body;
 
+   //Перевіряємо валідність ID стовпчика, до якого переносимо картку.
+   if (typeof newColumnId !== "string" || newColumnId.length !== 24) {
+      throw HttpError(400, "Invalid new column id");
+   }
+
    // Перевіряємо, чи існує карта з вказаним ідентифікатором
    const card = await Card.findById(id);
    if (!card) {
       throw HttpError(404, `Card ${id} not found`);
-   }
-
-   //Перевіряємо валідність ID стовпчика, до якого переносимо картку.
-   if (typeof newColumnId !== "string" && newColumnId.length !== 24) {
-      throw HttpError(400, "Invalid new column id");
    }
 
    // Перевіряємо, щоб ID нового стовпчика не дорівнював ID стовпчику поточної карти
