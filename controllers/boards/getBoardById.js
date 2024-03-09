@@ -44,7 +44,14 @@ const getBoardById = ctrlWrapper(async (req, res) => {
          _id: col.columns._id,
          title: col.columns.title,
          columnOwner: col.columns.columnOwner,
-         cards: col.columns.cards,
+         cards: col.columns.cards.map((card) => {
+            // Копіюємо всі поля карти, оновлюючи тільки deadline
+            const updatedCard = {
+               ...card,
+               deadline: card.deadline.toLocaleString(),
+            };
+            return updatedCard;
+         }),
       })),
    };
 

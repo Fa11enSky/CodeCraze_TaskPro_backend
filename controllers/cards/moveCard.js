@@ -41,9 +41,13 @@ const moveCard = ctrlWrapper(async (req, res) => {
    card.cardOwner = newColumnId;
    const result = await card.save();
 
+   //конвертується для адекватного відображення дедлайну
+   const deadline = result.deadline.toLocaleString();
+   const data = { ...result._doc, deadline };
+
    res.json({
       message: `Card "${id}" successfully moved to column "${newColumnId}"`,
-      result,
+      data,
    });
 });
 
