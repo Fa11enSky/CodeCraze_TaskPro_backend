@@ -515,6 +515,16 @@
                      }
                   }
                },
+               "400": {
+                  "description": "Bad request (invalid request body)",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorBadRequestResponse"
+                        }
+                     }
+                  }
+               },
                "401": {
                   "description": "Not authorized",
                   "content": {
@@ -629,7 +639,17 @@
                   "content": {
                      "application/json": {
                         "schema": {
-                           "$ref": "#/components/schemas/ColumnsAndCardsResponse"
+                           "$ref": "#/components/schemas/BoardWithColumnsAndCardsResponse"
+                        }
+                     }
+                  }
+               },
+               "400": {
+                  "description": "Bad request (invalid request body)",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorBadRequestResponse"
                         }
                      }
                   }
@@ -759,6 +779,16 @@
                      }
                   }
                },
+               "400": {
+                  "description": "Bad request (invalid request body)",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorBadRequestResponse"
+                        }
+                     }
+                  }
+               },
                "401": {
                   "description": "Not authorized",
                   "content": {
@@ -797,7 +827,7 @@
             "tags": ["Columns"],
             "summary": "Add column to board",
             "parameters": [],
-            "description": "Authorization token must be included",
+            "description": "**Authorization token must be included**",
             "security": [
                {
                   "Bearer": []
@@ -873,7 +903,7 @@
             "tags": ["Columns"],
             "summary": "Update column`s fields",
             "parameters": [],
-            "description": "Authorization token must be included",
+            "description": "**Authorization token must be included**",
             "security": [
                {
                   "Bearer": []
@@ -956,7 +986,7 @@
          "delete": {
             "tags": ["Columns"],
             "summary": "Remove column",
-            "description": "Authorization token must be included",
+            "description": "**Authorization token must be included**",
             "security": [
                {
                   "Bearer": []
@@ -969,6 +999,16 @@
                      "application/json": {
                         "schema": {
                            "$ref": "#/components/schemas/deleteColumnResponse"
+                        }
+                     }
+                  }
+               },
+               "400": {
+                  "description": "Bad request (invalid request body)",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorBadRequestResponse"
                         }
                      }
                   }
@@ -1115,6 +1155,16 @@
                      }
                   }
                },
+               "400": {
+                  "description": "Bad request (invalid request body)",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorBadRequestResponse"
+                        }
+                     }
+                  }
+               },
                "401": {
                   "description": "Not authorized",
                   "content": {
@@ -1163,6 +1213,16 @@
                      "application/json": {
                         "schema": {
                            "$ref": "#/components/schemas/deleteCardResponse"
+                        }
+                     }
+                  }
+               },
+               "400": {
+                  "description": "Bad request (invalid request body)",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/errorBadRequestResponse"
                         }
                      }
                   }
@@ -1338,6 +1398,69 @@
                   "type": "string",
                   "description": "User's active board id",
                   "example": "649c7cdac8dc5563f4946fe4"
+               }
+            }
+         },
+         "Column": {
+            "type": "object",
+            "properties": {
+               "_id": {
+                  "type": "string",
+                  "description": "Column's id",
+                  "example": "65ec4afe2823d66718d0f09a"
+               },
+               "title": {
+                  "type": "string",
+                  "description": "Title of the column.",
+                  "example": "test column 1"
+               },
+               "columnOwner": {
+                  "type": "string",
+                  "description": "Identifier of the column owner.",
+                  "example": "65e792b06097d9e86d736506"
+               },
+               "cards": {
+                  "type": "array",
+                  "items": {
+                     "$ref": "#/components/schemas/Card"
+                  },
+                  "description": "List of column's cards."
+               }
+            }
+         },
+         "Card": {
+            "type": "object",
+            "properties": {
+               "_id": {
+                  "type": "string",
+                  "description": "Card's id.",
+                  "example": "65ec4b9a2823d66718d0f0ae"
+               },
+               "title": {
+                  "type": "string",
+                  "description": "Card's title.",
+                  "example": "test card 1"
+               },
+               "description": {
+                  "type": "string",
+                  "description": "Description of the card, if available.",
+                  "example": "description of the card"
+               },
+               "label": {
+                  "type": "string",
+                  "description": "Label of the card.",
+                  "example": "without"
+               },
+               "cardOwner": {
+                  "type": "string",
+                  "description": "Identifier of the card owner.",
+                  "example": "65ec4afe2823d66718d0f09a"
+               },
+               "deadline": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Deadline of the card.",
+                  "example": "2024-03-10T11:44:26.421Z"
                }
             }
          },
@@ -1528,7 +1651,7 @@
                   "background": {
                      "type": "string",
                      "description": "ID з джсону з бекграундами -  sourse/bgs.json",
-                     "example": "1ADApriYKw4F7"
+                     "example": "1"
                   },
                   "owner": {
                      "type": "string",
@@ -1565,18 +1688,13 @@
                "background": {
                   "type": "string",
                   "description": "Board's background",
-                  "example": "background"
+                  "example": "1"
                }
             }
          },
          "AddBoardResponse": {
             "type": "object",
             "properties": {
-               "id": {
-                  "type": "string",
-                  "description": "Board's id",
-                  "example": "65e785b205fbc60c7c4984cd"
-               },
                "title": {
                   "type": "string",
                   "description": "Board's title",
@@ -1590,12 +1708,54 @@
                "background": {
                   "type": "string",
                   "description": "Board's background",
-                  "example": "background"
+                  "example": "1"
                },
                "owner": {
                   "type": "string",
                   "description": "Owner`s id",
                   "example": "65e7228866e43c6075e5d2f5"
+               },
+               "_id": {
+                  "type": "string",
+                  "description": "Board's id",
+                  "example": "65e785b205fbc60c7c4984cd"
+               }
+            }
+         },
+         "BoardWithColumnsAndCardsResponse": {
+            "type": "object",
+            "properties": {
+               "_id": {
+                  "type": "string",
+                  "description": "Board's id",
+                  "example": "65e792b06097d9e86d736506"
+               },
+               "title": {
+                  "type": "string",
+                  "description": "Board's title",
+                  "example": "test new board"
+               },
+               "icon": {
+                  "type": "string",
+                  "description": "Board's icon",
+                  "example": "icon-project"
+               },
+               "background": {
+                  "type": "string",
+                  "description": "Board's background",
+                  "example": null
+               },
+               "owner": {
+                  "type": "string",
+                  "description": "Owner`s id",
+                  "example": "65e7228866e43c6075e5d2f5"
+               },
+               "columns": {
+                  "type": "array",
+                  "description": "List of board's columns",
+                  "items": {
+                     "$ref": "#/components/schemas/Column"
+                  }
                }
             }
          },
@@ -1625,7 +1785,7 @@
                "background": {
                   "type": "string",
                   "description": "Board's background",
-                  "example": "background"
+                  "example": "1"
                }
             }
          },
@@ -1643,7 +1803,7 @@
          "ColumnResponse": {
             "type": "object",
             "properties": {
-               "id": {
+               "_id": {
                   "type": "string",
                   "description": "Column's id",
                   "example": "6497272b903f686ac6123cad"
@@ -1655,7 +1815,7 @@
                },
                "columnOwner": {
                   "type": "string",
-                  "description": "Column's id",
+                  "description": "ColumnOwner's id",
                   "example": "6496f88960259996ba1250a1"
                }
             }
@@ -1749,9 +1909,9 @@
          "CardResponse": {
             "type": "object",
             "properties": {
-               "id": {
+               "_id": {
                   "type": "string",
-                  "description": "Board's id",
+                  "description": "Card's id",
                   "example": "6497272b903f686ac6123cad"
                },
                "title": {
@@ -1792,73 +1952,7 @@
                }
             }
          },
-         "ColumnsAndCardsResponse": {
-            "type": "object",
-            "properties": {
-               "columns": {
-                  "type": "array",
-                  "items": {
-                     "type": "object",
-                     "properties": {
-                        "_id": {
-                           "type": "string",
-                           "description": "Column`s id",
-                           "example": "6496f88960259996ba1250a1"
-                        },
-                        "title": {
-                           "type": "string",
-                           "description": "Column's title",
-                           "example": "Column title"
-                        },
-                        "columnOwner": {
-                           "type": "string",
-                           "description": "ColumnOwner`s id",
-                           "example": "649738732301f0d9412b3b25"
-                        }
-                     }
-                  }
-               },
-               "cards": {
-                  "type": "array",
-                  "items": {
-                     "type": "object",
-                     "properties": {
-                        "_id": {
-                           "type": "string",
-                           "description": "Card`s id",
-                           "example": "6499f64aa82d48b430dafa6a"
-                        },
-                        "title": {
-                           "type": "string",
-                           "description": "Card's title",
-                           "example": "Card title"
-                        },
-                        "description": {
-                           "type": "string",
-                           "description": "Card's description",
-                           "example": "Card description"
-                        },
-                        "label": {
-                           "type": "string",
-                           "description": "Card's label",
-                           "example": "medium"
-                        },
-                        "deadline": {
-                           "type": "string",
-                           "description": "Card's deadline",
-                           "format": "date-time",
-                           "example": "2023-06-28T00:13:53.677+00:00"
-                        },
-                        "cardOwner": {
-                           "type": "string",
-                           "description": "CardOwner`s id",
-                           "example": "6499ce1761db2ad559ea7462"
-                        }
-                     }
-                  }
-               }
-            }
-         },
+
          "HelpMessageRequest": {
             "type": "object",
             "required": ["email", "comment"],
