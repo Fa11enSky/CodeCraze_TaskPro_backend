@@ -1633,7 +1633,7 @@
             "items": {
                "type": "object",
                "properties": {
-                  "id": {
+                  "_id": {
                      "type": "string",
                      "description": "Board's id",
                      "example": "6497272b903f686ac6123cad"

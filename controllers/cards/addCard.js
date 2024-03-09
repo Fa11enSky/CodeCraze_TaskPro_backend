@@ -16,9 +16,8 @@ const addCard = ctrlWrapper(async (req, res) => {
       cardOwner: id,
    });
 
-   const deadline = result.deadline.toLocaleString();
-
    //конвертується для адекватного відображення дедлайну
+   const deadline = result.deadline.toLocaleString();
    const data = { ...result._doc, deadline };
 
    res.status(201).json(data);
