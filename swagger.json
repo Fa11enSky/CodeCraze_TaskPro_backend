@@ -1256,6 +1256,16 @@
             "tags": ["Cards"],
             "summary": "Remove card",
             "description": "**Authorization token must be included**",
+            "parameters": [
+               {
+                  "in": "path",
+                  "name": "cardId",
+                  "required": true,
+                  "schema": {
+                     "type": "string"
+                  }
+               }
+            ],
             "security": [
                {
                   "Bearer": []
