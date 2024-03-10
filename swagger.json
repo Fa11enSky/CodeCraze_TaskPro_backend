@@ -1208,7 +1208,7 @@
                }
             ],
             "requestBody": {
-               "description": "# Опис параметрів запиту:\n\n**title** - string, назва картки.\n\n**description** - string, опис картки.\n\n**label** - string, пріорітетність. Можливі значення without | low | medium | high. \n\n**deadline** - string(date-time), дедлайн картки. . По замовчанню +1 день від поточної дати. Не допустима минула дата\n\n # Body must have at least one field\n\n",
+               "description": "# Опис параметрів запиту:\n\n**title** - string, назва картки.\n\n**description** - string, опис картки.\n\n**label** - string, пріорітетність. Можливі значення without | low | medium | high. \n\n**deadline** - string(date-time), дедлайн картки. Не допустима минула дата\n\n # Body must have at least one field\n\n",
                "required": true,
                "content": {
                   "application/json": {
@@ -1553,7 +1553,7 @@
                   "type": "string",
                   "format": "date-time",
                   "description": "Deadline of the card.",
-                  "example": "2024-03-10T11:44:26.421Z"
+                  "example": "3/10/2024, 11:44:26 PM"
                }
             }
          },
@@ -2059,7 +2059,7 @@
                "deadline": {
                   "type": "string",
                   "description": "Дедлайн картки. Якщо відсутній в запиті, автоматично встановлюється на +1 день від поточного.",
-                  "example": "DD.MM.YYYY, 00:00:00"
+                  "example": "MM/DD/YYYY, 00:00:00 PM"
                },
                "cardOwner": {
                   "type": "string",
