@@ -939,7 +939,16 @@
          "patch": {
             "tags": ["Columns"],
             "summary": "Update column`s fields",
-            "parameters": [],
+            "parameters": [
+               {
+                  "in": "path",
+                  "name": "columnId",
+                  "required": true,
+                  "schema": {
+                     "type": "string"
+                  }
+               }
+            ],
             "description": "**Authorization token must be included**",
             "security": [
                {
@@ -1024,6 +1033,16 @@
             "tags": ["Columns"],
             "summary": "Remove column",
             "description": "**Authorization token must be included**",
+            "parameters": [
+               {
+                  "in": "path",
+                  "name": "columnId",
+                  "required": true,
+                  "schema": {
+                     "type": "string"
+                  }
+               }
+            ],
             "security": [
                {
                   "Bearer": []
