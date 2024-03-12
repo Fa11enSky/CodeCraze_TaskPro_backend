@@ -286,7 +286,7 @@
                }
             ],
             "requestBody": {
-               "description": "# Опис параметрів запиту:\n\n**avatar** - string, фото користувача в форматі form-data.\n\n**name** - string, ім'я користувача.\n\n**email** - string, електронна пошта користувача. \n\n**password** - string, пароль користувача. \n\n # Body must have at least one field\n\n",
+               "description": "# Опис параметрів запиту:\n\n**avatar** - string, фото користувача в форматі form-data.\n\n**name** - string, ім'я користувача.\n\n**email** - string, електронна пошта користувача. \n\n**password** - string, пароль користувача. \n\n # Body має містити хоча б одне поле \n\n",
                "required": true,
                "content": {
                   "multipart/form-data": {
@@ -558,7 +558,7 @@
                }
             ],
             "requestBody": {
-               "description": "\n\n # Опис параметрів запиту:\n\n**title** - string, назва дошки, **required**.\n\n**icon** - string, іконка зі списку, defalt -icon-project-. \n\n**background** - null||string, фон дошки (від 1 до 15). \n",
+               "description": "\n\n # Опис параметрів запиту:\n\n**title** - string, назва дошки, **required**.\n\n**icon** - string, іконка зі списку, default -icon-project-. \n\n**background** - string, фон дошки (від 0 до 15), default -0- \n",
                "required": true,
                "content": {
                   "application/json": {
@@ -715,7 +715,7 @@
                }
             ],
             "requestBody": {
-               "description": "\n\n # Body must have at least one field\n\n",
+               "description": "\n\n # Опис параметрів запиту:\n\n**title** - string, назва дошки \n\n**icon** - string, іконка зі списку. \n\n**background** - string, фон дошки (від 0 до 15)\n\n # Body має містити хоча б одне поле і його значення має відрізнятися від попереднього \n\n\n",
                "content": {
                   "application/json": {
                      "schema": {
@@ -1782,6 +1782,7 @@
                   "type": "string",
                   "description": "Board's background",
                   "enum": [
+                     "0",
                      "1",
                      "2",
                      "3",
@@ -1818,6 +1819,24 @@
                "background": {
                   "type": "string",
                   "description": "Board's background",
+                  "enum": [
+                     "0",
+                     "1",
+                     "2",
+                     "3",
+                     "4",
+                     "5",
+                     "6",
+                     "7",
+                     "8",
+                     "9",
+                     "10",
+                     "11",
+                     "12",
+                     "13",
+                     "14",
+                     "15"
+                  ],
                   "example": "1"
                },
                "owner": {
@@ -1853,7 +1872,7 @@
                "background": {
                   "type": "string",
                   "description": "Board's background",
-                  "example": null
+                  "example": "0"
                },
                "owner": {
                   "type": "string",
@@ -1896,6 +1915,7 @@
                   "type": "string",
                   "description": "Board's background id",
                   "enum": [
+                     "0",
                      "1",
                      "2",
                      "3",
