@@ -23,12 +23,12 @@ const updateBoard = ctrlWrapper(async (req, res) => {
    if (
       (title && title !== board.title) ||
       (icon && icon !== board.icon) ||
-      (background !== undefined && background !== board.background)
+      (background && background !== board.background)
    ) {
       // Оновлюємо дані дошки за наявності відповідних полів в тілі запиту
       if (title) board.title = title;
       if (icon) board.icon = icon;
-      if (background !== undefined) board.background = background;
+      if (background) board.background = background;
 
       // Зберігаємо оновлену дошку в базі даних
       const updatedBoard = await board.save();
