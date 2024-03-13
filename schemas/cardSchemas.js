@@ -12,7 +12,7 @@ const addCardSchema = Joi.object({
 
 const updateCardSchema = Joi.object({
    title: Joi.string(),
-   description: Joi.string(),
+   description: Joi.string().allow(""),
    label: Joi.string().valid("without", "low", "medium", "high"),
    deadline: Joi.date().greater("now"),
 });
