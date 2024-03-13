@@ -14,12 +14,12 @@ const updateCard = ctrlWrapper(async (req, res) => {
    // Оновлення картки з урахуванням змінених полів
    const updatedFields = {};
    if (title) updatedFields.title = title;
-   if (description) updatedFields.description = description;
+   if (description !== undefined) updatedFields.description = description;
    if (label) updatedFields.label = label;
    if (deadline) updatedFields.deadline = deadline;
 
    // Перевірка на зміну хоча б одного поля
-   if (!title && !description && !label && !deadline) {
+   if (!title && description === undefined && !label && !deadline) {
       throw HttpError(400, "At least one field must be updated");
    }
 
