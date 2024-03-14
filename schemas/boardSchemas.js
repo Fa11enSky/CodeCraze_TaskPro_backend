@@ -14,9 +14,9 @@ const addBoardSchema = Joi.object({
       "icon-colors",
       "icon-hexagon"
    ),
-   background: Joi.allow(
-      null,
-      ...[
+   background: Joi.string()
+      .valid(
+         "0",
          "1",
          "2",
          "3",
@@ -31,9 +31,9 @@ const addBoardSchema = Joi.object({
          "12",
          "13",
          "14",
-         "15",
-      ]
-   ).default(null),
+         "15"
+      )
+      .default("0"),
    owner: Joi.string(),
 });
 
@@ -49,25 +49,23 @@ const updateBoardSchema = Joi.object({
       "icon-colors",
       "icon-hexagon"
    ),
-   background: Joi.allow(
-      null,
-      ...[
-         "1",
-         "2",
-         "3",
-         "4",
-         "5",
-         "6",
-         "7",
-         "8",
-         "9",
-         "10",
-         "11",
-         "12",
-         "13",
-         "14",
-         "15",
-      ]
+   background: Joi.string().valid(
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15"
    ),
 });
 

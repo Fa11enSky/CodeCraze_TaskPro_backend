@@ -24,7 +24,7 @@ const boardSchema = new Schema(
       background: {
          type: String,
          enum: [
-            null,
+            "0",
             "1",
             "2",
             "3",
@@ -41,7 +41,7 @@ const boardSchema = new Schema(
             "14",
             "15",
          ],
-         default: null,
+         default: "0",
       },
       owner: {
          type: Schema.Types.ObjectId,

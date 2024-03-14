@@ -19,20 +19,24 @@ const updateBoard = ctrlWrapper(async (req, res) => {
       throw HttpError(409, `Board "${title}" already exists`);
    }
 
-   // Перевіряємо, чи є дані для оновлення
-   if (!title && !icon && !background) {
+   // Перевіряємо, чи є дані для оновлення і чи нові значення відрізняються від попередніх
+   if (
+      (title && title !== board.title) ||
+      (icon && icon !== board.icon) ||
+      (background && background !== board.background)
+   ) {
+      // Оновлюємо дані дошки за наявності відповідних полів в тілі запиту
+      if (title) board.title = title;
+      if (icon) board.icon = icon;
+      if (background) board.background = background;
+
+      // Зберігаємо оновлену дошку в базі даних
+      const updatedBoard = await board.save();
+
+      res.json(updatedBoard);
+   } else {
       throw HttpError(400, "No data to update");
    }
-
-   // Оновлюємо дані дошки за наявності відповідних полів в тілі запиту
-   if (title) board.title = title;
-   if (icon) board.icon = icon;
-   if (background) board.background = background;
-
-   // Зберігаємо оновлену дошку в базі даних
-   const updatedBoard = await board.save();
-
-   res.json(updatedBoard);
 });
 
 module.exports = updateBoard;
